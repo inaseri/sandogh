@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'bank.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mrprogramer_bank',
         'USER': 'mrprogramer',
         'PASSWORD': '22bahman2010',
