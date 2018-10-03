@@ -87,8 +87,8 @@ DATABASES = {
         'NAME': 'sandogh_zainab',
         'USER': 'sandogh_zainab',
         'PASSWORD': '22bahman2010',
-        'HOST': '',
-        'PORT': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
