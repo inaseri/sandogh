@@ -16,7 +16,7 @@ class User(AbstractUser):
         (True, 'Men'),
         (False, 'Women'),
     )
-    gender=models.BooleanField(choices=gender_list)
+    gender=models.BooleanField(choices=gender_list,default=True)
     codemelli = models.CharField(max_length=12,unique=True,null=True,blank=True)
 #     shenase_hesab = models.IntegerField(unique=True,null=True,blank=True)
 class bankaccount(models.Model):
