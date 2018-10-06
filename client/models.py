@@ -29,7 +29,7 @@ class bankaccount(models.Model):
         return self.name+" "+self.user.first_name+" "+self.user.last_name
 class catch(models.Model):
     bankaccount = models.ForeignKey(bankaccount)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField()#auto_now=True
     price = models.FloatField()
     year = models.IntegerField(default=0)
     added_with_bank = models.BooleanField(default=False)
