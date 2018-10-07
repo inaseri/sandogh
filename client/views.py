@@ -43,9 +43,12 @@ def Login(request):
                 username=User.objects.get(email=username).username
         except forms.ValidationError:
             pass
-            
-        user = authenticate(username=username, password=request.POST['password'])
-        print(user)
+        #check user can authenticate
+        try:
+            user = authenticate(username=username, password=request.POST['password'])
+        except:
+            print(user)
+            user=None
         #request.session['password']=request.POST['password']
         if user is not None:
             # the password verified for the user
