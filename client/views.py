@@ -22,7 +22,8 @@ def recaptcha(request):
     return recaptcha
 @login_required
 def index(request):
-    return JsonResponse({})
+    context={}
+    return render(request,"tmpl1/index.html",context)
 def Login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(request.GET.get("next","/"))

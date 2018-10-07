@@ -1,0 +1,40 @@
+<!-- sidebar menu -->{% load api_tags %}
+<script>
+function x(bytes) {
+   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+   if (bytes == 0) return '0 Byte';
+   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+};</script>
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        <h3>عمومی</h3>
+        <ul class="nav side-menu">
+            <li {% if request.path == 'home'|apiurl %}class="current-page"{%endif%}><a href="{% url 'home' %}"><i class="fa fa-home"></i>خانه</a>
+            </li>
+            <li><a><i class="glyphicon glyphicon-cog"></i> تنظیمات <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="{% url 'changepassword' %}"{% if request.path == 'changepassword'|apiurl %} class="current-page"{%endif%}>تغییر گذرواژه</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- /sidebar menu -->
+
+<!-- /menu footer buttons -->
+<div class="sidebar-footer hidden-small">
+    <a data-toggle="tooltip" data-placement="top" title="تنظیمات">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+    </a>
+    <a data-toggle="tooltip" data-placement="top" title="تمام صفحه">
+        <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+    </a>
+    <a data-toggle="tooltip" data-placement="top" title="قفل">
+        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+    </a>
+    <a href="{% url 'logout'%}" data-toggle="tooltip" data-placement="top" title="خروج">
+        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+    </a>
+</div>
+<!-- /menu footer buttons -->
