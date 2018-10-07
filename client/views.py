@@ -257,12 +257,22 @@ def pwStrength(pw):
                 Score -= (len(Seq) - 2) * 2
                 # print("Sequential numbers:", -(len(Seq) - 2) * 2)
     return Score
+
 @login_required
-def operator(request,page):
+def changepassword(request):
     context={}
-       
-    if page is None:
-        HttpResponseRedirect("index")
-    context['page']=page
-    
-    return render(request,"cloth_v1/operator/"+page+".html",context)
+    if request.method == "POST":
+        if request.POST.get("newpassword",None) and request.POST.get("password",None):
+            if authenticate(username=request.user.username, password=request.POST.get("password",None)):
+                if pwStrength(request.POST.get("newpassword",""))>60:
+                    user = request.user
+                    user.set_password(request.POST["newpassword"])
+                    user.save()
+                    context['result'] = "گذر واژه با موفقیت تغییر کرد."
+                else:
+                    context['error'] = "گذر واژه ی جدید آسان می باشد."
+            else:
+                context['error'] = "گذرواژه صحیح نیست."
+        else:
+            context['error']="گذرواژه صحیح نیست."
+    return render(request, "tmpl1/accounts/changepassword.html", context)
