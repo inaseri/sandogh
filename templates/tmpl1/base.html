@@ -68,7 +68,7 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="../build/images/img.jpg" alt="">{%if request.user.get_full_name %}{{request.user.get_full_name}}{% else %}{{request.user.username}}{%endif%}
+                                <img src="{% static 'build/images/img.jpg' %}" alt="">{%if request.user.get_full_name %}{{request.user.get_full_name}}{% else %}{{request.user.username}}{%endif%}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
