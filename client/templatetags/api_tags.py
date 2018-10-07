@@ -1,10 +1,12 @@
 # -*- coding: UTF-8 -*-
-# from django import template
+from django import template
 # from jdatetime import datetime as jdatetime
-# from dateutil import tz
-# register = template.Library()
-#
-# @register.filter("jdate")
-# def jdate(value,format):
-#     value = value.astimezone(tz.tzlocal())
-#     return jdatetime.fromgregorian(datetime=value).strftime(format)
+from datetime import datetime
+from dateutil import tz
+import json
+from django.urls import reverse
+register = template.Library()
+
+@register.filter("apiurl")
+def apiurl(value):
+    return reverse(value)
