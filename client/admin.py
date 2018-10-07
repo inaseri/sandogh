@@ -67,7 +67,7 @@ def percentage(obj):
     if j:
         value = round(obj.points / j * 100,2)
     else:
-        value = "تغریف نشده"
+        value = "تعریف نشده"
     return str(value)+"%"
 
 class bankaccountAdmin(admin.ModelAdmin):
