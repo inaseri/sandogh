@@ -47,8 +47,8 @@ def Login(request):
         try:
             user = authenticate(username=username, password=request.POST['password'])
         except:
-            print(user)
             user=None
+        print(user)
         #request.session['password']=request.POST['password']
         if user is not None:
             # the password verified for the user
