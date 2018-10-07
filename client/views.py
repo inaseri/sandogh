@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
+from django.http import JsonResponse
 from .models import User
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
@@ -19,6 +20,9 @@ def recaptcha(request):
     r = requests.post('https://www.google.com/recaptcha/api/siteverify', data = {'secret':secret,"response":recaptcha_response,"remoteip":remoteip})
     recaptcha=json.loads(r.text)
     return recaptcha
+@login_required
+def index(request):
+    return JsonResponse({})
 def Login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(request.GET.get("next","/"))
