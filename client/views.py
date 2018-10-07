@@ -50,7 +50,7 @@ def Login(request):
         else:
             # the authentication system was unable to verify the username and password
             print("The username and password were incorrect.")
-    return render(request,"cloth_v1/accounts/login.html",context)
+    return render(request,"tmpl1/accounts/login.html",context)
 
 def recovery(request):
     if request.user.is_authenticated():
