@@ -29,6 +29,9 @@ def index(request):
     context['bankaccounts'] = len(bankaccount.objects.all())
     context['useraccounts'] = len(User.objects.all())
     return render(request,"tmpl1/index.html",context)
+@login_required
+def bankacc(request):
+    return JsonResponse({})
 def Login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(request.GET.get("next","/"))

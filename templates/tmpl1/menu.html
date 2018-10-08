@@ -17,6 +17,7 @@ function x(bytes) {
                     <li><a href="{% url 'changepassword' %}"{% if request.path == 'changepassword'|apiurl %} class="current-page"{%endif%}>تغییر گذرواژه</a></li>
                 </ul>
             </li>
+            <li {% if request.path == 'bankacc'|apiurl %}class="current-page"{%endif%}><a href="{% url 'bankacc' %}"><i class="fa fa-money"></i>حساب ها</a>
         </ul>
     </div>
 </div>
