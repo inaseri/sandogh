@@ -38,7 +38,7 @@ def bankaccs(request):
     else:
         return HttpResponseRedirect(reverse("service:view_ftp_access", args=[bnk[0].id]))
 @login_required
-def bankaccs(request,id):
+def bankacc(request,id):
     return JsonResponse({})
 def Login(request):
     if request.user.is_authenticated():
