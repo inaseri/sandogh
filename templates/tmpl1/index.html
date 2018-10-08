@@ -6,27 +6,20 @@
     <!-- top tiles -->
     <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> تعداد تبدیل به متن</span>
-            <div class="count">{{ocr}}</div>
-            <span class="count_bottom"><i class="green">{% widthratio ocr_lastweek ocr 100 %}% </i> از هفته گذشته</span>
+            <span class="count_top"><i class="fa fa-user"></i>تعداد وام های صندوق</span>
+            <div class="count">{{loan.count}}</div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-clock-o"></i> میانگین زمان</span>
-            <div class="count">123.50</div>
-            <span class="count_bottom"><i class="green"><i
-                    class="fa fa-sort-asc"></i>3% </i> از هفته گذشته</span>
+            <span class="count_top"><i class="fa fa-clock-o"></i>تعداد افراد در صف وام</span>
+            <div class="count">{{loan.queue}}</div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> مجموع مردان</span>
-            <div class="count green">2,500</div>
-            <span class="count_bottom"><i class="green"><i
-                    class="fa fa-sort-asc"></i>34% </i> از هفته گذشته</span>
+            <span class="count_top"><i class="fa fa-user"></i>تعداد حساب ها</span>
+            <div class="count green">{{bankaccounts}}</div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> مجموع زنان</span>
-            <div class="count">4,567</div>
-            <span class="count_bottom"><i class="red"><i
-                    class="fa fa-sort-desc"></i>12% </i> از هفته گذشته</span>
+            <span class="count_top"><i class="fa fa-user"></i>تعداد اعضا</span>
+            <div class="count">{{useraccounts}}</div>
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> مجموعه کلی</span>

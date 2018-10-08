@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
-from .models import User
+from .models import User,bankaccount
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django import forms
@@ -23,6 +23,11 @@ def recaptcha(request):
 @login_required
 def index(request):
     context={}
+    context['loan']={}
+    context['loan']['count'] = 0
+    context['loan']['queue'] = 0
+    context['bankaccounts'] = len(bankaccount.objects.all())
+    context['useraccounts'] = len(User.objects.all())
     return render(request,"tmpl1/index.html",context)
 def Login(request):
     if request.user.is_authenticated():
