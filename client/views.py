@@ -8,6 +8,7 @@ from django import forms
 import re
 import requests
 from django.http import HttpResponse
+from django.urls import reverse
 import json
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -30,7 +31,14 @@ def index(request):
     context['useraccounts'] = len(User.objects.all())
     return render(request,"tmpl1/index.html",context)
 @login_required
-def bankacc(request):
+def bankaccs(request):
+    bnk = bankaccount.objects.filter(user=request.user)
+    if bnk.count()>1:
+        return JsonResponse({})
+    else:
+        return HttpResponseRedirect(reverse("service:view_ftp_access", args=[bnk[0].id]))
+@login_required
+def bankaccs(request,id):
     return JsonResponse({})
 def Login(request):
     if request.user.is_authenticated():
