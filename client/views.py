@@ -36,7 +36,7 @@ def bankaccs(request):
     if bnk.count()>1:
         return JsonResponse({})
     else:
-        return HttpResponseRedirect(reverse("service:view_ftp_access", args=[bnk[0].id]))
+        return HttpResponseRedirect(reverse("bankacc", args=[bnk[0].id]))
 @login_required
 def bankacc(request,id):
     return JsonResponse({})
