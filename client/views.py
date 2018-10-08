@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
-from .models import User,bankaccount
+from .models import User,bankaccount,Loan_queue
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django import forms
@@ -24,8 +24,8 @@ def recaptcha(request):
 def index(request):
     context={}
     context['loan']={}
-    context['loan']['count'] = 0
-    context['loan']['queue'] = 0
+    context['loan']['count'] = Loan_queue.objects.filter(status__gt=-1).count()
+    context['loan']['queue'] = Loan_queue.objects.filter(status=-1).count()
     context['bankaccounts'] = len(bankaccount.objects.all())
     context['useraccounts'] = len(User.objects.all())
     return render(request,"tmpl1/index.html",context)
