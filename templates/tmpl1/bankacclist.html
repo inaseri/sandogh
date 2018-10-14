@@ -23,6 +23,7 @@
                                 <th>تعداد واریز ها</th>
                                 <th>موجودی</th>
                                 <th>تاریخ افتتاح حساب</th>
+                                <th>عملیات</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,6 +34,7 @@
                                 <td>{{value.count}}</td>
                                 <td>{{value.price|rial}}</td>
                                 <td>{{value.createTime|jdate:"%Y/%m/%d %H:%M"}}</td>
+                                <td><a href="{% url "bankacc" value.id %}" class="btn btn-primary btn-xs view"><i class="fa fa-folder"></i> مشاهده</a></td>
                             </tr>
                             {% endfor %}
                             </tbody>
