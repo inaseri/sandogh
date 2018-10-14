@@ -39,7 +39,13 @@ def bankaccs(request):
         return HttpResponseRedirect(reverse("bankacc", args=[bnk[0].id]))
 @login_required
 def bankacc(request,id):
-    return JsonResponse({})
+    context={}
+    try:
+        bnk=bankaccount.objects.get(user=request.user,id=id)
+        context['acc_number'] = bnk.id
+        return render(request,"tmpl1/listpeyments",context)
+    except:
+        return JsonResponse({"error":"Perimition denided"})
 def Login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(request.GET.get("next","/"))
