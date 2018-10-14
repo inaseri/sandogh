@@ -29,7 +29,7 @@
                             {% for value in bnk %}
                             <tr>
                                 <td>{{forloop.counter}}</td>
-                                <td><a href="">{{value.name}}</a></td>
+                                <td><a href="{% url "bankacc" value.id %}">{{value.name}}</a></td>
                                 <td>{{value.count}}</td>
                                 <td>{{value.price|rial}}</td>
                                 <td>{{value.createTime|jdate:"%Y/%m/%d %H:%M"}}</td>
