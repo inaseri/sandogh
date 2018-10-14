@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
@@ -31,28 +32,43 @@ def index(request):
     return render(request,"tmpl1/index.html",context)
 @login_required
 def bankaccs(request):
+    context={}
     bnk = bankaccount.objects.filter(user=request.user)
-    if bnk.count()>1:
-        return JsonResponse({})
-    else:
-        return HttpResponseRedirect(reverse("bankacc", args=[bnk[0].id]))
+    for acc in bnk:
+        count = acc.count
+        Qr = Q()
+        Qr = Qr & (Q(**{"added_with_bank": False}))
+        Qr = Qr & (Q(**{"bankaccount": acc}))
+        catchs = catch.objects.filter(Qr)
+        count = count + len(catchs)
+        price = 0
+        for item in catchs:
+            price = price + item.price
+        acc.price=price
+        acc.count = count
+    context['bnk']=bnk
+    # if bnk.count()>1:
+    #     return JsonResponse({})
+    # else:
+    #     return HttpResponseRedirect(reverse("bankacc", args=[bnk[0].id]))
+    return render(request, "tmpl1/bankacclist.html", context)
 @login_required
 def bankacc(request,id):
     context={}
-    # try:
-    bnk=bankaccount.objects.get(id=id)
-    context['acc_number'] = bnk.name
-    ctch = catch.objects.filter(bankaccount=bnk).order_by("-date")
-    context['catch']=[]
-    for i in ctch:
-        tmp={}
-        tmp['date_added'] = i.date
-        tmp['price'] = i.price
-        tmp['bank']=i.added_with_bank
-        context['catch'].append(tmp)
-    return render(request,"tmpl1/listpeyments.html",context)
-    # except:
-    #     return JsonResponse({"error":"Perimition denided"})
+    try:
+        bnk=bankaccount.objects.get(id=id)
+        context['acc_number'] = bnk.name
+        ctch = catch.objects.filter(bankaccount=bnk).order_by("-date")
+        context['catch']=[]
+        for i in ctch:
+            tmp={}
+            tmp['date_added'] = i.date
+            tmp['price'] = i.price
+            tmp['bank']=i.added_with_bank
+            context['catch'].append(tmp)
+        return render(request,"tmpl1/listpeyments.html",context)
+    except:
+        return JsonResponse({"error":"Perimition denided"})
 def Login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(request.GET.get("next","/"))
