@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
-from .models import User,bankaccount,Loan_queue
+from .models import User,bankaccount,Loan_queue,catch
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django import forms
 import re
 import requests
-from django.http import HttpResponse
 from django.urls import reverse
 import json
 from django.contrib.auth.decorators import login_required
@@ -40,12 +39,20 @@ def bankaccs(request):
 @login_required
 def bankacc(request,id):
     context={}
-    try:
-        bnk=bankaccount.objects.get(user=request.user,id=id)
-        context['acc_number'] = bnk.id
-        return render(request,"tmpl1/listpeyments",context)
-    except:
-        return JsonResponse({"error":"Perimition denided"})
+    # try:
+    bnk=bankaccount.objects.get(id=id)
+    context['acc_number'] = bnk.name
+    ctch = catch.objects.filter(bankaccount=bnk).order_by("-date")
+    context['catch']=[]
+    for i in ctch:
+        tmp={}
+        tmp['date_added'] = i.date
+        tmp['price'] = i.price
+        tmp['bank']=i.added_with_bank
+        context['catch'].append(tmp)
+    return render(request,"tmpl1/listpeyments.html",context)
+    # except:
+    #     return JsonResponse({"error":"Perimition denided"})
 def Login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(request.GET.get("next","/"))
