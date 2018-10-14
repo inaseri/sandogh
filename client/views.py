@@ -56,7 +56,7 @@ def bankaccs(request):
 def bankacc(request,id):
     context={}
     try:
-        bnk=bankaccount.objects.get(id=id)
+        bnk=bankaccount.objects.get(id=id,user=request.user)
         context['acc_number'] = bnk.name
         ctch = catch.objects.filter(bankaccount=bnk).order_by("-date")
         context['catch']=[]
