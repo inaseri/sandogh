@@ -11,6 +11,7 @@ import requests
 from django.urls import reverse
 import json
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 # Create your views here.
 def recaptcha(request):
     recaptcha_response=request.POST.get('g-recaptcha-response','')
@@ -324,3 +325,16 @@ def changepassword(request):
         else:
             context['error']="گذرواژه صحیح نیست."
     return render(request, "tmpl1/accounts/changepassword.html", context)
+
+@login_required
+def ViewQueue(request):
+    if request.user.is_superuser:
+        ln = Loan_queue.objects.filter()
+    else:
+        raise Http404("access denided")
+@login_required
+def AddQueue(request):
+    if request.user.is_superuser:
+        ln = Loan_queue.objects.filter()
+    else:
+        raise Http404("access denided")

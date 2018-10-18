@@ -1,0 +1,83 @@
+{% extends "tmpl1/base.html" %}
+{% load static from staticfiles %}
+{% block title %}
+درخواست وام
+{% endblock %}
+{% block jsblock %}
+{% endblock %}
+{% block body %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>درخواست وام</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form id="demo-form2" enctype="multipart/form-data" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیح<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input name="description" required="required" class="form-control col-md-7 col-xs-12" type="text" data-parsley-minlength="2" data-parsley-required {% if file %}value="{{ file.description }}"{% endif%}>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">فایل</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {% if file.id %}
+                                    <a href="{{ file.file.url }}" class="btn btn-primary btn-xs view" target="_blank"><i class="fa fa-folder"></i> مشاهده</a>
+                                    {% else %}
+                                    <input name="file" required="required" class="form-control col-md-7 col-xs-12" type="file" data-parsley-required>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if file.id %}
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">حجم</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <span class="size">{{ file.size }}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">نوع</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ file.type }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">فرمت</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ file.extention }}
+                                </div>
+                            </div>
+                                {% if file.type == "pdf" %}
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">تعداد صفحه</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ file.extra.pages }}
+                                </div>
+                            </div>
+                                {% endif %}
+                            {% endif %}
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    {% if file %}
+                                        <a href="{% url 'ocr_home' %}" class="btn btn-primary">مرحله بعد</a>
+                                    {% endif %}
+                                    <button type="submit" class="btn btn-success">{% if file %}ویرایش{% else %}بارگذاری{% endif%}</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
