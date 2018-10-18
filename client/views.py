@@ -328,13 +328,18 @@ def changepassword(request):
 
 @login_required
 def ViewQueue(request):
+    context = {}
     if request.user.is_superuser:
         ln = Loan_queue.objects.filter()
+        context['loanqueue'] = ln
     else:
         raise Http404("access denided")
+    return render(request, "tmpl1/accounts/loanqueue.html", context)
 @login_required
 def AddQueue(request):
+    context = {}
     if request.user.is_superuser:
-        ln = Loan_queue.objects.filter()
+        pass
     else:
         raise Http404("access denided")
+    return render(request, "tmpl1/accounts/newqueue.html", context)
