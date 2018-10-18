@@ -334,7 +334,7 @@ def ViewQueue(request):
         context['loanqueue'] = ln
     else:
         raise Http404("access denided")
-    return render(request, "tmpl1/accounts/loanqueue.html", context)
+    return render(request, "tmpl1/loanqueue.html", context)
 @login_required
 def AddQueue(request):
     context = {}
@@ -342,4 +342,4 @@ def AddQueue(request):
         pass
     else:
         raise Http404("access denided")
-    return render(request, "tmpl1/accounts/newqueue.html", context)
+    return render(request, "tmpl1/newqueue.html", context)
