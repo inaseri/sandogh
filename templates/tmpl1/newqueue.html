@@ -4,6 +4,24 @@
 درخواست وام
 {% endblock %}
 {% block jsblock %}
+<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+<script src="{% static 'vendors/parsleyjs/dist/i18n/fa.js' %}"></script>
+<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/moment-jalaali.js" %}"></script>
+<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/daterangepicker-fa.js" %}"></script>
+<script>
+    $('.jalali-datepicker').daterangepicker({
+        clearLabel: 'Clear',
+        autoApply: true,
+        opens: 'left',
+        singleDatePicker: true,
+        showDropdowns: true,
+        jalaali: true,
+        language: 'fa'
+    }).on('apply.daterangepicker', function () {
+        $('.tooltip').hide();
+        $('.date-select').text($(this).val());
+    });
+</script>
 {% endblock %}
 {% block body %}
 <div class="right_col" role="main">
@@ -16,60 +34,51 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
+                        {% if error %}
+                            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>خطا!</strong> هنوز وام فعلی را تصویه نکرده اید.
+                            </div>
+                        {% endif %}
+                        {% if success %}
+                            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>تبریک!</strong> اطلاعات با موفقیت ثبت شد.
+                            </div>
+                        {% endif %}
                         <form id="demo-form2" enctype="multipart/form-data" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="POST">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیح<span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">مبلغ <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input name="description" required="required" class="form-control col-md-7 col-xs-12" type="text" data-parsley-minlength="2" data-parsley-required {% if file %}value="{{ file.description }}"{% endif%}>
+                                    <input name="amount" required="required" class="form-control col-md-7 col-xs-12" type="text" data-parsley-minlength="2" data-parsley-required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">فایل</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">حساب <span class="required">*</span></label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    {% if file.id %}
-                                    <a href="{{ file.file.url }}" class="btn btn-primary btn-xs view" target="_blank"><i class="fa fa-folder"></i> مشاهده</a>
-                                    {% else %}
-                                    <input name="file" required="required" class="form-control col-md-7 col-xs-12" type="file" data-parsley-required>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            {% if file.id %}
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">حجم</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <span class="size">{{ file.size }}</span>
+                                    <select class="form-control" required="required" name="acc" data-parsley-required>
+                                        <option value="">انتخاب کنید.</option>
+                                        {% for value in bacc %}
+                                            <option value="{{value.id}}">{{value.name}}-{{value.user.get_full_name}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">نوع</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">تاریخ</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    {{ file.type }}
+                                    <input class="form-control jalali-datepicker" type="text" name="date" value="{{fadate}}">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">فرمت</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    {{ file.extention }}
-                                </div>
-                            </div>
-                                {% if file.type == "pdf" %}
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">تعداد صفحه</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    {{ file.extra.pages }}
-                                </div>
-                            </div>
-                                {% endif %}
-                            {% endif %}
+
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                    {% if file %}
-                                        <a href="{% url 'ocr_home' %}" class="btn btn-primary">مرحله بعد</a>
-                                    {% endif %}
-                                    <button type="submit" class="btn btn-success">{% if file %}ویرایش{% else %}بارگذاری{% endif%}</button>
+                                    <button type="submit" class="btn btn-success">ثبت</button>
                                 </div>
                             </div>
 

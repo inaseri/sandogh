@@ -22,7 +22,6 @@ function x(bytes) {
                 <ul class="nav child_menu">
                     {% if request.user.is_superuser%}
                     <li><a href="{% url 'loan_queue' %}"{% if request.path == 'loan_queue'|apiurl %} class="current-page"{%endif%}>صف وام</a></li>
-                    <li><a href="{% url 'loan_queue_add' %}"{% if request.path == 'loan_queue_add'|apiurl %} class="current-page"{%endif%}>اضافه کردن به صف</a></li>
                     {% endif %}
                 </ul>
             </li>

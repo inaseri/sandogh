@@ -1,34 +1,8 @@
 {% extends "tmpl1/base.html" %}
 {% load static from staticfiles %}
-{% block title %}فایل های جدید{% endblock %}
+{% load api_tags %}
+{% block title %}صف وام{% endblock %}
 {% block jsblock %}
-<script>
-    function bytesToSize(bytes) {
-        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-        if (bytes == 0) return '0 Byte';
-            var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-    };
-    $('.view').click(function(){
-
-        $.ajax({
-            method: "POST",
-            url: '{% url 'filemanager_scan_detailfile' %}',
-            data: {'file':$(this).attr("data-file")}
-        })
-        .done(function( result ) {
-            $(".modal-body").html("");
-            $(".modal-body").append($("<p></p>").text("نام فایل: "+result.filename));
-            $(".modal-body").append($("<p></p>").text("حجم فایل: "+bytesToSize(result.size)));
-            if(result.type == "image"){
-                $(".modal-body").append($("<p></p>").text("تصویر:"));
-                $(".modal-body").append($("<img width=\"100%\">").attr("src","/api_fileman/tmp/"+result.path));
-            }else{
-                $(".modal-body").append($("<a>پیش نمایش</a>").attr("href","/api_fileman/tmp/"+result.path));
-            }1
-        });
-    });
-</script>
 {% endblock %}
 {% block body %}
 <div class="right_col" role="main">
@@ -37,16 +11,14 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>مدیریت فایل های جدید
-                            <small>مسیر: </small>
-                            <small dir="ltr">
-                                <a href="{% url 'filemanager_newfile' %}"><i class="fa fa-home"></i></a>
-                            {% for value in linkpath %}
-                                {% if forloop.counter0 %}>{%endif%}
-                                <a href="{% url 'filemanager_newfile' %}?dir={{value.1}}">{{value.0}}</a>
-                            {% endfor %}
-                            </small>
-                        </h2>
+                        <h2>صف درخواست وام ها</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+	                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+	                            </li>
+                                <li>
+                                    <a href="{% url "loan_queue_add" %}"><i class="fa fa-plus"></i></a>
+                                </li>
+	                        </ul>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -54,47 +26,20 @@
                             <thead>
                             <tr>
                                 <th>نام</th>
-                                <th>نوع</th>
-                                <th>عملیات</th>
+                                <th>تاریخ</th>
+                                <th>وضعیت</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for dir in scan.dir %}
+                            {% for val in loanqueue %}
                             <tr>
-                                <td>{{ dir }}</td>
-                                <td>پوشه</td>
-                                <td><a href="{% url 'filemanager_newfile' %}?dir={% if path %}{{path}}/{%endif%}{{dir}}">باز کردن</a></td>
-                            </tr>
-                            {% endfor %}
-                            {% for file in scan.file %}
-                            <tr>
-                                <td>{{file}}</td>
-                                <td>فایل</td>
-                                <td><button type="button" class="btn btn-primary btn-xs view" data-toggle="modal" data-target=".bs-example-modal-lg" data-file="{% if path %}{{path}}/{%endif%}{{dir}}{{file}}"><i class="fa fa-folder"></i>اضافه کردن</button></td>
+                                <td>{{ val.bankaccount.user.get_full_name }}</td>
+                                <td>{{ val.date|jdate:"%Y/%m/%d %H:%M" }}</td>
+                                <td>{% if val.status == -1 %}درحال پردازش{% elif val.status == 0 %}وام تعلق گرفته{% else %}پایان یافته{% endif %}</td>
                             </tr>
                             {% endfor %}
                             </tbody>
                         </table>
-                        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal"><span
-                                                aria-hidden="true">×</span>
-                                        </button>
-                                        <h4 class="modal-title" id="myModalLabel">پیش نمایش</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="" type="button" class="btn btn-info modal-edit">اضافه کردن</a>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

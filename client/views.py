@@ -12,6 +12,7 @@ from django.urls import reverse
 import json
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+import jdatetime
 # Create your views here.
 def recaptcha(request):
     recaptcha_response=request.POST.get('g-recaptcha-response','')
@@ -339,7 +340,22 @@ def ViewQueue(request):
 def AddQueue(request):
     context = {}
     if request.user.is_superuser:
-        pass
+        bacc = bankaccount.objects.all()
+        context['bacc'] = bacc
+        if request.method == "POST":
+            context['fadate'] = request.POST.get("date")
+            context['date'] = (context['fadate']).split("/")
+            context['date'] = jdatetime.date(int(context['date'][0]), int(context['date'][1]), int(context['date'][2]))
+            context['date'] = context['date'].togregorian()
+            if Loan_queue.objects.filter(bankaccount = bankaccount.objects.get(id=int(request.POST.get("acc"))),status__lt=1).exists or int(request.POST.get("amount")) <=0:
+                context['error']=True
+            else:
+                lq = Loan_queue()
+                lq.date = context['date']
+                lq.bankaccount = bankaccount.objects.get(id=int(request.POST.get("acc")))
+                lq.amount = int(request.POST.get("amount"))
+                lq.save()
+                context['success'] = True
     else:
         raise Http404("access denided")
     return render(request, "tmpl1/newqueue.html", context)
