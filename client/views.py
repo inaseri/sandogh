@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
-from .models import User,bankaccount,Loan_queue,catch
+from .models import User,bankaccount,Loan_queue,catch,new_loan
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django import forms
@@ -336,6 +336,7 @@ def ViewQueue(request):
     else:
         raise Http404("access denided")
     return render(request, "tmpl1/loanqueue.html", context)
+
 @login_required
 def AddQueue(request):
     context = {}
@@ -359,3 +360,47 @@ def AddQueue(request):
     else:
         raise Http404("access denided")
     return render(request, "tmpl1/newqueue.html", context)
+
+@login_required
+def loan_new(request):
+    context = {}
+    if request.user.is_superuser:
+        bacc = Loan_queue.objects.filter(status=-1)
+        context['bacc'] = bacc
+        if request.method == "POST":
+            context['fadate'] = request.POST.get("date")
+            context['date'] = (context['fadate']).split("/")
+            context['date'] = jdatetime.date(int(context['date'][0]), int(context['date'][1]), int(context['date'][2]))
+            context['date'] = context['date'].togregorian()
+            if int(request.POST.get("peak")) <=0:
+                context['error']=True
+            else:
+                lq = new_loan()
+                lq.date = context['date']
+                lq.loan_queue = Loan_queue.objects.get(id=int(request.POST.get("acc")))
+                lq.peak = int(request.POST.get("peak"))
+                lq.save()
+                context['success'] = True
+    else:
+        raise Http404("access denided")
+    return render(request, "tmpl1/newloan.html", context)
+
+@login_required
+def loan(request):
+    context = {}
+    if request.user.is_superuser:
+        bk = bankaccount.objects.filter(user = request.user)
+        lq = Loan_queue.objects.filter(bankaccount__in = bk)
+        loan = new_loan.objects.filter(loan_queue__in=lq)
+    else:
+        loan = new_loan.objects.filter()
+    context['loan']=loan
+    return render(request, "tmpl1/loan.html", context)
+@login_required
+def loan_admin(request):
+    context = {}
+    if request.user.is_superuser:
+        context['loan'] = new_loan.objects.filter()
+    else:
+        raise Http404("access denided")
+    return render(request, "tmpl1/loan_admin.html", context)

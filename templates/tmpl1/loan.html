@@ -15,9 +15,6 @@
                         <ul class="nav navbar-right panel_toolbox">
 	                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 	                            </li>
-                                <li>
-                                    <a href="{% url "loan_queue_add" %}"><i class="fa fa-plus"></i></a>
-                                </li>
 	                        </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -25,17 +22,25 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>نام</th>
-                                <th>تاریخ</th>
+                                <th>شماره وام</th>
+                                <th>تاریخ آخرین پرداخت</th>
+                                <th>تاریخ تعلق گرفتن وام</th>
+                                <th>تعداد قسط عقب افتاده</th>
+                                <th>تعداد قسط پرداخت شده</th>
+                                <th>تعداد کل اقساط</th>
                                 <th>وضعیت</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for val in loanqueue %}
+                            {% for value in loan %}
                             <tr>
-                                <td>{{ val.loan_queue.bankaccount.user.get_full_name }}</td>
-                                <td>{{ val.loan_queue.date|jdate:"%Y/%m/%d %H:%M" }}</td>
-                                <td>{% if val.status == -1 %}درحال پردازش{% elif val.status == 0 %}وام تعلق گرفته{% else %}پایان یافته{% endif %}</td>
+                                <td>#{{ value.id }}</td>
+                                <td>{{ value.lastpeyment|jdate:"%Y/%m/%d %H:%M" }}</td>
+                                <td>{{ value.date|jdate:"%Y/%m/%d %H:%M" }}</td>
+                                <td>{{ value.UnpaidLoan}}</td>
+                                <td>{{ value.CountPayLoan}}</td>
+                                <td>{{ value.CountAllLoan}}</td>
+                                <td>{% if value.status == 0 %}وام تعلق گرفته{% else %}پایان یافته{% endif %}</td>
                             </tr>
                             {% endfor %}
                             </tbody>

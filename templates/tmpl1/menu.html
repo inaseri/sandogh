@@ -1,11 +1,4 @@
 <!-- sidebar menu -->{% load api_tags %}
-<script>
-function x(bytes) {
-   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-   if (bytes == 0) return '0 Byte';
-   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-};</script>
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
         <h3>عمومی</h3>
@@ -22,7 +15,10 @@ function x(bytes) {
                 <ul class="nav child_menu">
                     {% if request.user.is_superuser%}
                     <li><a href="{% url 'loan_queue' %}"{% if request.path == 'loan_queue'|apiurl %} class="current-page"{%endif%}>صف وام</a></li>
+                    <li><a href="{% url 'loan_admin' %}"{% if request.path == 'loan_admin'|apiurl %} class="current-page"{%endif%}>مدیریت وام</a></li>
+
                     {% endif %}
+                    <li><a href="{% url 'loan' %}"{% if request.path == 'laon'|apiurl %} class="current-page"{%endif%}>وام ها</a></li>
                 </ul>
             </li>
         </ul>

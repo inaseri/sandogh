@@ -1,0 +1,84 @@
+{% extends "tmpl1/base.html" %}
+{% load static from staticfiles %}
+{% block title %}
+درخواست وام
+{% endblock %}
+{% block jsblock %}
+<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+<script src="{% static 'vendors/parsleyjs/dist/i18n/fa.js' %}"></script>
+<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/moment-jalaali.js" %}"></script>
+<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/daterangepicker-fa.js" %}"></script>
+<script>
+    $('.jalali-datepicker').daterangepicker({
+        clearLabel: 'Clear',
+        autoApply: true,
+        opens: 'left',
+        singleDatePicker: true,
+        showDropdowns: true,
+        jalaali: true,
+        language: 'fa'
+    }).on('apply.daterangepicker', function () {
+        $('.tooltip').hide();
+        $('.date-select').text($(this).val());
+    });
+</script>
+{% endblock %}
+{% block body %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>درخواست وام</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        {% if success %}
+                            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>تبریک!</strong> اطلاعات با موفقیت ثبت شد.
+                            </div>
+                        {% endif %}
+                        <form id="demo-form2" enctype="multipart/form-data" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">حساب <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select class="form-control" required="required" name="acc" data-parsley-required>
+                                        <option value="">انتخاب کنید.</option>
+                                        {% for value in bacc %}
+                                            <option value="{{value.id}}">{{value}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">تاریخ</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input class="form-control jalali-datepicker" type="text" name="date" value="{{fadate}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">مبلغ هر قسط</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input class="form-control" type="number" name="peak" value="10">
+                                </div>
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <button type="submit" class="btn btn-success">ثبت</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

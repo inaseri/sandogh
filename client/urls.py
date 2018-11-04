@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^accounts/bankacc/$', views.bankaccs, name="bankaccs"),
     url(r'^loan/queue/$', views.ViewQueue, name="loan_queue"),
     url(r'^loan/queue/add/$', views.AddQueue, name="loan_queue_add"),
-    url(r'^loan/new/$', views.bankaccs, name="loan_new"),
+    url(r'^loan/new/$', views.loan_new, name="loan_new"),
+    url(r'^loan/admin/$', views.loan_admin, name="loan_admin"),
+    url(r'^loan/$', views.loan, name="loan"),
 #    url(r'^operator/(?P<page>[0-9a-z\.-]+)', views.operator,name='operator',),
 ]

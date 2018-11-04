@@ -16,7 +16,7 @@
 	                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 	                            </li>
                                 <li>
-                                    <a href="{% url "loan_queue_add" %}"><i class="fa fa-plus"></i></a>
+                                    <a href="{% url "loan_new" %}"><i class="fa fa-plus"></i></a>
                                 </li>
 	                        </ul>
                         <div class="clearfix"></div>
@@ -27,14 +27,22 @@
                             <tr>
                                 <th>نام</th>
                                 <th>تاریخ</th>
+                                <th>زمان آخرین پرداخت</th>
+                                <th>تعداد قسط عقب مانده</th>
+                                <th>تعداد قسط های پرداخت شده</th>
+                                <th>تعداد کل اقساط</th>
                                 <th>وضعیت</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for val in loanqueue %}
+                            {% for val in loan %}
                             <tr>
                                 <td>{{ val.loan_queue.bankaccount.user.get_full_name }}</td>
-                                <td>{{ val.loan_queue.date|jdate:"%Y/%m/%d %H:%M" }}</td>
+                                <td>{{ val.date|jdate:"%Y/%m/%d %H:%M" }}</td>
+                                <td>{% if val.lastpeyment %}{{val.lastpeyment|jdate:"%Y/%m/%d %H:%M"}}{% else %}تا به حال پرداختی نداشته اید.{% endif%}</td>
+                                <td>{{ val.UnpaidLoan }}</td>
+                                <td>{{ val.CountPayLoan }}</td>
+                                <td>{{ val.CountAllLoan }}</td>
                                 <td>{% if val.status == -1 %}درحال پردازش{% elif val.status == 0 %}وام تعلق گرفته{% else %}پایان یافته{% endif %}</td>
                             </tr>
                             {% endfor %}

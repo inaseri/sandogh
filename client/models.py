@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import requests,locale
 from bank.settings import telegapiKey
+import datetime
 
 # Create your models here.
 def upload_to(instance,filename):
@@ -115,24 +116,62 @@ class new_loan(models.Model):
         self.loan_queue.status=0
         self.loan_queue.save()
         super(new_loan, self).save(*args, **kwargs)
+    def CountAllLoan(self):
+        if self.status==1:
+            return "done"
+        if self.peak ==0:
+            return "Error"
+        if self.loan_queue.amount % self.peak >0:
+            value = self.loan_queue.amount // self.peak +1
+        else:
+            value= self.loan_queue.amount // self.peak
+        return value
+    def CountPayLoan(self):
+        if self.status==1:
+            return "done"
+        else:
+            return new_loan_pay.objects.filter(new_loan=self).count()
+    def UnpaidLoan(self):
+        if self.status==1:
+            return "done"
+        else:
+            CountPayLoan = self.CountPayLoan()
+            CountAllLoan = self.CountAllLoan()
+            if CountAllLoan == CountPayLoan:
+                self.status=1
+                self.loan_queue.status=1
+                self.loan_queue.save()
+                self.save()
+                return "0"
+            elif periodic_payment.objects.filter(datetime__lte=datetime.datetime.now(),datetime__gte=self.date).count() <= CountPayLoan:
+                return 0
+            else:
+                if periodic_payment.objects.filter(datetime__lte=datetime.datetime.now(),datetime__gte=self.date).count() > CountAllLoan:
+                    return CountAllLoan - CountPayLoan
+                else:
+                    return periodic_payment.objects.filter(datetime__lte=datetime.datetime.now(),datetime__gte=self.date).count()-CountPayLoan
 
-
+    def lastpeyment(self):
+        try:
+            return new_loan_pay.objects.filter(new_loan=self).order_by('-id')[0].date
+        except:
+            return False
 class new_loan_pay(models.Model):
     new_loan = models.ForeignKey(new_loan)
     date = models.DateTimeField(auto_now_add=True)
     description = models.CharField(default="",max_length=20)
     def save(self,*args , **kwargs):
         super(new_loan_pay, self).save(*args, **kwargs)
-        locale.setlocale(locale.LC_ALL, 'fa_IR')
-        mess = "آقای  " + self.new_loan.loan_queue.bankaccount.user.first_name + " " + self.new_loan.loan_queue.bankaccount.user.last_name  + "  عزیز \n اطلاعات وام دریافتی شما  : \n"
-        mess = mess + "مبلغ وام شما : " + locale.currency(self.new_loan.loan_queue.amount*10000, grouping=True) + "\n"
-        mess = mess + "مبلغ پرداختی شما : " + locale.currency(self.new_loan.peak*10000, grouping=True) + "\n"
-        p1 = self.new_loan.peak * len(new_loan_pay.objects.filter(new_loan = self.new_loan)) *10000
-        p2 = self.new_loan.loan_queue.amount *10000 - p1
-        mess = mess + " مبلغ پرداخت شده : " + locale.currency(p1,grouping=True) + " \n مبلغ باقی مانده : " + locale.currency(p2, grouping=True)
-        mess = mess +"\n شماره تراکنش:"+str(self.id)
-        requests.post("https://api.telegram.org/bot" + telegapiKey + "/sendMessage",
-                      data={'chat_id': self.new_loan.loan_queue.bankaccount.user.telegramid, "text": mess})
+        # locale.setlocale(locale.LC_ALL, 'fa_IR')
+        # mess = "آقای  " + self.new_loan.loan_queue.bankaccount.user.first_name + " " + self.new_loan.loan_queue.bankaccount.user.last_name  + "  عزیز \n اطلاعات وام دریافتی شما  : \n"
+        # mess = mess + "مبلغ وام شما : " + locale.currency(self.new_loan.loan_queue.amount*10000, grouping=True) + "\n"
+        # mess = mess + "مبلغ پرداختی شما : " + locale.currency(self.new_loan.peak*10000, grouping=True) + "\n"
+        # p1 = self.new_loan.peak * len(new_loan_pay.objects.filter(new_loan = self.new_loan)) *10000
+        # p2 = self.new_loan.loan_queue.amount *10000 - p1
+        # mess = mess + " مبلغ پرداخت شده : " + locale.currency(p1,grouping=True) + " \n مبلغ باقی مانده : " + locale.currency(p2, grouping=True)
+        # mess = mess +"\n شماره تراکنش:"+str(self.id)
+        # requests.post("https://api.telegram.org/bot" + telegapiKey + "/sendMessage",
+        #               data={'chat_id': self.new_loan.loan_queue.bankaccount.user.telegramid, "text": mess})
 class periodic_payment(models.Model):
     datetime = models.DateTimeField()
 
