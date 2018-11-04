@@ -388,13 +388,9 @@ def loan_new(request):
 @login_required
 def loan(request):
     context = {}
-    if request.user.is_superuser:
-        bk = bankaccount.objects.filter(user = request.user)
-        lq = Loan_queue.objects.filter(bankaccount__in = bk)
-        loan = new_loan.objects.filter(loan_queue__in=lq)
-    else:
-        loan = new_loan.objects.filter()
-    context['loan']=loan
+    bk = bankaccount.objects.filter(user = request.user)
+    lq = Loan_queue.objects.filter(bankaccount__in = bk)
+    context['loan'] = new_loan.objects.filter(loan_queue__in=lq)
     return render(request, "tmpl1/loan.html", context)
 @login_required
 def loan_admin(request):
