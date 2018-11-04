@@ -390,7 +390,7 @@ def loan(request):
     context = {}
     bk = bankaccount.objects.filter(user = request.user)
     lq = Loan_queue.objects.filter(bankaccount__in = bk)
-    context['loan'] = new_loan.objects.filter(loan_queue__in=lq)
+    context['qloan'] = new_loan.objects.filter(loan_queue__in=lq)
     return render(request, "tmpl1/loan.html", context)
 @login_required
 def loan_admin(request):

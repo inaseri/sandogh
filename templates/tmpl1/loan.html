@@ -32,10 +32,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for value in loan %}
+                            {% for value in qloan %}
                             <tr>
-                                <td>#</td>
-                                <td>{{ value.lastpeyment|jdate:"%Y/%m/%d %H:%M" }}</td>
+                                <td>#{{value.id}}</td>
+                                <td>{% if val.lastpeyment %}{{val.lastpeyment|jdate:"%Y/%m/%d %H:%M"}}{% else %}تا به حال پرداختی نداشته اید.{% endif%}</td>
                                 <td>{{ value.date|jdate:"%Y/%m/%d %H:%M" }}</td>
                                 <td>{{ value.UnpaidLoan}}</td>
                                 <td>{{ value.CountPayLoan}}</td>
