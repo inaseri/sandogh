@@ -348,7 +348,7 @@ def AddQueue(request):
             context['date'] = (context['fadate']).split("/")
             context['date'] = jdatetime.date(int(context['date'][0]), int(context['date'][1]), int(context['date'][2]))
             context['date'] = context['date'].togregorian()
-            if Loan_queue.objects.filter(bankaccount = bankaccount.objects.get(id=int(request.POST.get("acc"))),status__lt=1).exists or int(request.POST.get("amount")) <=0:
+            if Loan_queue.objects.filter(bankaccount = bankaccount.objects.get(id=int(request.POST.get("acc"))),status__lt=1).exists() or int(request.POST.get("amount")) <=0:
                 context['error']=True
             else:
                 lq = Loan_queue()
