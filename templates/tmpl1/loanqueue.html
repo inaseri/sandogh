@@ -33,8 +33,8 @@
                             <tbody>
                             {% for val in loanqueue %}
                             <tr>
-                                <td>{{ val.loan_queue.bankaccount.user.get_full_name }}</td>
-                                <td>{{ val.loan_queue.date|jdate:"%Y/%m/%d %H:%M" }}</td>
+                                <td>{{ val.bankaccount.user.get_full_name }}</td>
+                                <td>{{ val.date|jdate:"%Y/%m/%d %H:%M" }}</td>
                                 <td>{% if val.status == -1 %}درحال پردازش{% elif val.status == 0 %}وام تعلق گرفته{% else %}پایان یافته{% endif %}</td>
                             </tr>
                             {% endfor %}
