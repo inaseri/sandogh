@@ -110,7 +110,7 @@ class new_loan(models.Model):
     )
     loan_queue = models.OneToOneField(Loan_queue,on_delete=models.CASCADE,primary_key=True)
     peak = models.IntegerField(default=0)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     status = models.IntegerField(choices=Status_choice,default=0)
     def save(self, *args, **kwargs):
         self.loan_queue.status=0
