@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 import requests,locale
 from bank.settings import telegapiKey
 import datetime
-import jdatetime
+from jdatetime import datetime as jdatetime
 import pytz
 from dateutil import tz
 # Create your models here.
