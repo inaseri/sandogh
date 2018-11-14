@@ -3,7 +3,9 @@ from django.contrib.auth.models import AbstractUser
 import requests,locale
 from bank.settings import telegapiKey
 import datetime
-
+import jdatetime
+import pytz
+from dateutil import tz
 # Create your models here.
 def upload_to(instance,filename):
     return '%s/%s/%s'%("images/users/",instance.username,filename)
@@ -110,7 +112,7 @@ class new_loan(models.Model):
     )
     loan_queue = models.OneToOneField(Loan_queue,on_delete=models.CASCADE,primary_key=True)
     peak = models.IntegerField(default=0)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=Status_choice,default=0)
     def save(self, *args, **kwargs):
         self.loan_queue.status=0
@@ -174,6 +176,10 @@ class new_loan_pay(models.Model):
         #               data={'chat_id': self.new_loan.loan_queue.bankaccount.user.telegramid, "text": mess})
 class periodic_payment(models.Model):
     datetime = models.DateTimeField()
+    def __str__(self):
+        value = datetime.strptime(self.datetime, '%Y-%m-%d %H:%M:%S')
+        value = value.replace(tzinfo=tz.gettz('UTC')).astimezone(pytz.timezone('Asia/Tehran'))
+        return jdatetime.fromgregorian(datetime=value).strftime(format)
 
 def currency(val, symbol=True, grouping=False, international=False):
    
