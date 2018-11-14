@@ -177,9 +177,8 @@ class new_loan_pay(models.Model):
 class periodic_payment(models.Model):
     datetime = models.DateTimeField()
     def __str__(self):
-        value = datetime.datetime.strptime(self.datetime, '%Y-%m-%d %H:%M:%S')
-        value = value.replace(tzinfo=tz.gettz('UTC')).astimezone(pytz.timezone('Asia/Tehran'))
-        return jdatetime.fromgregorian(datetime=value).strftime(format)
+        value = self.datetime.replace(tzinfo=tz.gettz('UTC')).astimezone(pytz.timezone('Asia/Tehran'))
+        return jdatetime.fromgregorian(datetime=value).strftime("%Y/%m/%d %H:%M")
 
 def currency(val, symbol=True, grouping=False, international=False):
    
