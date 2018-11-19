@@ -34,7 +34,7 @@
                             <tbody>
                             {% for value in qloan %}
                             <tr>
-                                <td>#{{value.id}}</td>
+                                <td>#{{value.loan_queue.id}}</td>
                                 <td>{% if value.lastpeyment %}{{value.lastpeyment|jdate:"%Y/%m/%d %H:%M"}}{% else %}تا به حال پرداختی نداشته اید.{% endif%}</td>
                                 <td>{{ value.date|jdate:"%Y/%m/%d %H:%M" }}</td>
                                 <td>{{ value.UnpaidLoan}}</td>

@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
-from .models import User,bankaccount,Loan_queue,catch,new_loan
+from .models import User,bankaccount,Loan_queue,catch,new_loan,new_loan_pay
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django import forms
@@ -388,15 +388,60 @@ def loan_new(request):
 @login_required
 def loan(request):
     context = {}
-    bk = bankaccount.objects.filter(user = request.user)
-    lq = Loan_queue.objects.filter(bankaccount__in = bk)
-    context['qloan'] = new_loan.objects.filter(loan_queue=lq)
+    try:
+        bk = bankaccount.objects.filter(user = request.user)
+        lq = Loan_queue.objects.filter(bankaccount__in = bk)
+        context['qloan'] = []
+        for i in lq:
+            tmp = new_loan.objects.filter(loan_queue=i)
+            if tmp.exists():
+                context['qloan'].append(tmp[0])
+    except:
+        pass
+    print(context['qloan'])
     return render(request, "tmpl1/loan.html", context)
 @login_required
 def loan_admin(request):
     context = {}
     if request.user.is_superuser:
         context['loan'] = new_loan.objects.filter()
+        print(context['loan'][0].loan_queue)
     else:
         raise Http404("access denided")
     return render(request, "tmpl1/loan_admin.html", context)
+
+@login_required
+def view_loan_pay(request,id):
+    context = {}
+    context['loan'] = new_loan.objects.get(loan_queue__pk=id)
+    if request.user.is_superuser:
+        context['nlp'] = new_loan_pay.objects.filter(new_loan=context['loan'])
+        print(context['nlp'])
+    else:
+        if context['loan'].loan_queue.bankaccount.user is not request.user:
+            raise Http404("access denided")
+    return render(request, "tmpl1/listpeymentLoan.html", context)
+
+@login_required
+def add_loan_pay(request,id):
+    context = {}
+    if request.user.is_superuser:
+        context['loan'] = new_loan.objects.get(loan_queue__pk=id)
+        if context['loan'] == 1:
+            return HttpResponseRedirect(request.GET.get("next", "/loan/view/"+id+"/"))
+        elif request.method == "POST":
+            context['fadate'] = request.POST.get("date")
+            context['date'] = (context['fadate']).split("/")
+            context['date'] = jdatetime.date(int(context['date'][0]), int(context['date'][1]), int(context['date'][2]))
+            context['date'] = context['date'].togregorian()
+            context['description'] = request.POST.get("description")
+            nlp = new_loan_pay()
+            nlp.date = context['date']
+            nlp.description = context['description']
+            nlp.new_loan = context['loan']
+            nlp.save()
+            context['loan'].UnpaidLoan()
+            return HttpResponseRedirect(request.GET.get("next", "/loan/view/" + id + "/"))
+    else:
+        raise Http404("access denided")
+    return render(request, "tmpl1/addpeymentToLoan.html", context)

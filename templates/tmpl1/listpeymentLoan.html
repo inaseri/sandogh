@@ -1,7 +1,7 @@
 {% extends "tmpl1/base.html" %}
 {% load static from staticfiles %}
 {% load api_tags %}
-{% block title %}صف وام{% endblock %}
+{% block title %}اطلاعات حساب{% endblock %}
 {% block jsblock %}
 {% endblock %}
 {% block body %}
@@ -11,31 +11,34 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>صف درخواست وام ها</h2>
+                        <h2>اطلاعات حساب<small>شماره وام:{{loan.loan_queue.id}}</small></h2>
+                        {% if request.user.is_superuser%}
+                        {% if loan.status == 1 %}
+                        {% else %}
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
                             <li>
-                                <a href="{% url "loan_queue_add" %}"><i class="fa fa-plus"></i></a>
+                                <a href="{% url "add_loan_pay" loan.loan_queue.id %}"><i class="fa fa-plus"></i></a>
                             </li>
                         </ul>
+                        {% endif %}
+                        {% endif %}
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th>نام</th>
+                                <th>#</th>
                                 <th>تاریخ</th>
-                                <th>وضعیت</th>
+                                <th>توضیح</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for val in loanqueue %}
+                            {% for value in nlp %}
                             <tr>
-                                <td>{{ val.bankaccount.user.get_full_name }}</td>
-                                <td>{{ val.date|jdate:"%Y/%m/%d %H:%M" }}</td>
-                                <td>{% if val.status == -1 %}درحال پردازش{% elif val.status == 0 %}وام تعلق گرفته{% else %}پایان یافته{% endif %}</td>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{value.date|jdate:"%Y/%m/%d %H:%M"}}</td>
+                                <td>{{value.description}}</td>
                             </tr>
                             {% endfor %}
                             </tbody>

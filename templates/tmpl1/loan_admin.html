@@ -43,7 +43,11 @@
                                 <td>{{ val.UnpaidLoan }}</td>
                                 <td>{{ val.CountPayLoan }}</td>
                                 <td>{{ val.CountAllLoan }}</td>
-                                <td>{% if val.status == -1 %}درحال پردازش{% elif val.status == 0 %}وام تعلق گرفته{% else %}پایان یافته{% endif %}</td>
+                                <td>{% if val.status == -1 %}درحال پردازش{% elif val.status == 0 %}
+                                    <a href="{% url "view_loan_pay" val.loan_queue.id %}" class="btn btn-primary btn-xs view">
+                                    وام تعلق گرفته
+                                    </a>
+                                    {% else %}پایان یافته{% endif %}</td>
                             </tr>
                             {% endfor %}
                             </tbody>

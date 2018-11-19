@@ -115,8 +115,9 @@ class new_loan(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=Status_choice,default=0)
     def save(self, *args, **kwargs):
-        self.loan_queue.status=0
-        self.loan_queue.save()
+        if self.loan_queue.status == -1:
+            self.loan_queue.status=0
+            self.loan_queue.save()
         super(new_loan, self).save(*args, **kwargs)
     def CountAllLoan(self):
         if self.status==1:

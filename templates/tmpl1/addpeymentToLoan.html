@@ -1,0 +1,73 @@
+{% extends "tmpl1/base.html" %}
+{% load static from staticfiles %}
+{% block title %}
+ثبت پرداخت
+{% endblock %}
+{% block jsblock %}
+<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+<script src="{% static 'vendors/parsleyjs/dist/i18n/fa.js' %}"></script>
+<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/moment-jalaali.js" %}"></script>
+<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/daterangepicker-fa.js" %}"></script>
+<script>
+    $('.jalali-datepicker').daterangepicker({
+        clearLabel: 'Clear',
+        autoApply: true,
+        opens: 'left',
+        singleDatePicker: true,
+        showDropdowns: true,
+        jalaali: true,
+        language: 'fa'
+    }).on('apply.daterangepicker', function () {
+        $('.tooltip').hide();
+        $('.date-select').text($(this).val());
+    });
+</script>
+{% endblock %}
+{% block body %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>ثبت پرداخت</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form id="demo-form2" enctype="multipart/form-data" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">حساب <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label class="form-control" style="text-align:left;direction: ltr;">
+                                        {{loan.loan_queue}}-{{loan.loan_queue.id}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">تاریخ</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input class="form-control jalali-datepicker" type="text" name="date" value="{{fadate}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">توضیحات</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input class="form-control" type="text" name="description" value="">
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <button type="submit" class="btn btn-success">ثبت</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
