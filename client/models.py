@@ -161,7 +161,7 @@ class new_loan(models.Model):
             return False
 class new_loan_pay(models.Model):
     new_loan = models.ForeignKey(new_loan)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     description = models.CharField(default="",max_length=20)
     def save(self,*args , **kwargs):
         super(new_loan_pay, self).save(*args, **kwargs)
