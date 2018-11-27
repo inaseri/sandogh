@@ -43,10 +43,6 @@ def bankaccs(request):
         Qr = Qr & (Q(**{"bankaccount": acc}))
         catchs = catch.objects.filter(Qr)
         count = count + len(catchs)
-        price = 0
-        for item in catchs:
-            price = price + item.price
-        acc.price=price
         acc.count = count
     context['bnk']=bnk
     # if bnk.count()>1:

@@ -30,6 +30,14 @@ class bankaccount(models.Model):
     points=models.IntegerField(default=0)
     def __str__(self):
         return self.name+" "+self.user.first_name+" "+self.user.last_name
+
+    def Inventory(self):
+        input = catch.objects.filter(bankaccount=self)
+        value = 0
+        for i in input:
+            value += i.price
+        locale.setlocale(locale.LC_ALL, 'fa_IR')
+        return locale.currency(int(value) * 10000, grouping=True)
 class catch(models.Model):
     bankaccount = models.ForeignKey(bankaccount)
     date = models.DateTimeField()#auto_now=True
