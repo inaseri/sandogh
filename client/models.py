@@ -36,8 +36,7 @@ class bankaccount(models.Model):
         value = 0
         for i in input:
             value += i.price
-        locale.setlocale(locale.LC_ALL, 'fa_IR')
-        return locale.currency(int(value) * 10000, grouping=True)
+        return value
 class catch(models.Model):
     bankaccount = models.ForeignKey(bankaccount)
     date = models.DateTimeField()#auto_now=True
