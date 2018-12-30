@@ -22,9 +22,9 @@ def data(request):
     print(telegapiKey)
     tempdata=request.POST.get('data',"")
     webhook={}
-    handle1=open('/home/mrprogramer/bank/static/webhook.txt','r+')
-    handle1.write(tempdata)
-    handle1.close()
+    #handle1=open('/home/mrprogramer/bank/static/webhook.txt','r+')
+    #handle1.write(tempdata)
+    #handle1.close()
     webhook=json.loads(tempdata)['message']
     try:
         Qr = Q()
