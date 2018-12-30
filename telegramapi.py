@@ -29,14 +29,14 @@ def data(request):
     try:
         Qr = Q()
         context['chat_id']=webhook['from']['id']
-        handle1=open('/home/mrprogramer/bank/static/test.txt','r+')
+        #handle1=open('/home/mrprogramer/bank/static/test.txt','r+')
         Qr = Qr & (Q(**{"telegramid": webhook['from']['id']}))
         u=User.objects.filter(Qr)
         if u.exists():
             try:
                 webhook['contact']
                 if webhook['from']['id'] != 13814588:#13814588 #57113444
-                    handle1.write(str(webhook['from']['id']))
+                    #handle1.write(str(webhook['from']['id']))
                     r = requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"شما نمیتوانید حساب کسی را فعال کنید برای فعال کردن حساب کاربری با @Abbas2044 ارتباط بر قرار کنید."})
                 else:
                     context['cellphone']=webhook['contact']['phone_number'][-10:]
@@ -130,7 +130,7 @@ def data(request):
                 reply_markup='{"keyboard":[["درخواست فعال سازی"]],"one_time_keyboard":true}'
                 requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"حساب کار بری شما فعال نشده لطفا برای فعال سازی حساب خود با آقای بغدادی تماس بگیرید. @Abbas2044",'reply_markup':reply_markup})
                 requests.post(url+"forwardMessage", data = {'chat_id':13814588,'from_chat_id':webhook['from']['id'],'message_id':webhook['message_id']})
-        handle1.close()
+        #handle1.close()
     except KeyError:
         requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"برنامه با مشکل مواجه شده است برای لطفا به آقای بغدادی اطلاع دهید. @Abbas2044"})
     return HttpResponse(json.dumps(context), content_type="application/json")
