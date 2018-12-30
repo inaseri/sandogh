@@ -86,7 +86,10 @@ def data(request):
                         Message=Message+"\nسود سال "+str(item.year)+" مبلغ "+locale.currency( item.price*10000, grouping=True )+" می باشد."
                         price=price+item.price*10000
                     Message=Message+"\nکل موجودی شما مبلغ "+locale.currency( price, grouping=True )+" می باشد."
-                    Message += "\nسود شما :" + percentage(acc)
+                    try:
+                        Message += "\nسود شما :" + percentage(acc)
+                    except:
+                        Message += "\nسود شما : در حال حاضر محاسبه نشده است."
                     Message += "\nبالاترین سود :" + percentage(bankaccount.objects.filter().order_by("-points")[0])
                     Message += "\nتعداد افرادی که بیشتر از شما واریزی داشته اند :" + str(bankaccount.objects.filter(points__gt=acc.points).count())
                     requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":Message,'reply_markup':reply_markup})
