@@ -88,9 +88,10 @@ def data(request):
                     Message=Message+"\nکل موجودی شما مبلغ "+locale.currency( price, grouping=True )+" می باشد."
                     try:
                         Message += "\nسود شما :" + percentage(acc)
+                        Message += "\nبالاترین سود :" + percentage(bankaccount.objects.filter().order_by("-points")[0])
                     except:
                         Message += "\nسود شما : در حال حاضر محاسبه نشده است."
-                    Message += "\nبالاترین سود :" + percentage(bankaccount.objects.filter().order_by("-points")[0])
+                        Message += "\nبالاترین سود :در حال حاضر محاسبه نشده است."
                     Message += "\nتعداد افرادی که بیشتر از شما واریزی داشته اند :" + str(bankaccount.objects.filter(points__gt=acc.points).count())
                     requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":Message,'reply_markup':reply_markup})
                 return HttpResponse(json.dumps(context), content_type="application/json")
