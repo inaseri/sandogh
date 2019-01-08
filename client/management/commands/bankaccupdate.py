@@ -32,15 +32,15 @@ class Command(BaseCommand):
                 else:
                     Negative_point = periodic_payment.objects.filter(datetime__lte=last_day_date_time,datetime__gte=loan.date).count()-CountPayLoan
             Negative_point = Negative_point * loan.peak // 10
-            datetimeset + datetime.timedelta(days=1)
-            file = open(os.path.join(BASE_DIR,"datetime.txt"), "w")
-            file.write(str(datetimeset.date()))
-            file.close()
         except:
             Negative_point=0
-        i.points += int(catch.objects.raw('SELECT id,sum(price)/10 as sum FROM client_catch WHERE  `bankaccount_id` = '+str(i.id))[0].sum)
+        i.points += int(catch.objects.raw('SELECT id,price/10 as price FROM client_catch WHERE  `bankaccount_id` = '+str(i.id)+" and date <'"+str(datetimeset.date())+"' GROUP BY id"))
         i.points -= Negative_point
         i.save()
-        print("date:"+str(datetimeset))
         print(i.id,"updated.")
+    datetimeset = datetimeset + datetime.timedelta(days=1)
+    file = open(os.path.join(BASE_DIR, "datetime.txt"), "w")
+    file.write(str(datetimeset.date()))
+    file.close()
+    print("date:" + str(datetimeset))
     print('the End')
