@@ -37,7 +37,7 @@ class Command(BaseCommand):
         calsum = 0
         colcatchsum = catch.objects.raw('SELECT id,price/10 as price FROM client_catch WHERE  bankaccount_id = '+str(i.id)+" and date <'"+str(datetimeset)+"' GROUP BY id")
         for i in colcatchsum:
-            calsum +=price
+            calsum +=i.price
         i.points += int(calsum)
         i.points -= Negative_point
         i.save()
