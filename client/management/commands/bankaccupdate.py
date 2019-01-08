@@ -12,8 +12,7 @@ class Command(BaseCommand):
         file.close()
         datetimeset = datetimeset.split("-")
         if int(datetimeset[0]) == datetime.datetime.now().date().year and  int(datetimeset[1]) == datetime.datetime.now().date().month and int(datetimeset[2]) == datetime.datetime.now().date().day:
-            self.stdout.write('Your Database is Up To Date.')
-            return Flase
+            CommandError('Your Database is Up To Date.')
         datetimeset=datetime.date(int(datetimeset[0]),int(datetimeset[1]),int(datetimeset[2]))
         acc =  bankaccount.objects.all()
         for i in acc:
@@ -45,10 +44,10 @@ class Command(BaseCommand):
             i.points += int(calsum)
             i.points -= Negative_point
             i.save()
-            self.stdout.write(i.id,"updated.")
+            self.stdout.write(str(i.id)+"updated.")
         datetimeset = datetimeset + datetime.timedelta(days=1)
         file = open(os.path.join(BASE_DIR, "datetime.txt"), "w")
         file.write(str(datetimeset))
         file.close()
         self.stdout.write("date:" + str(datetimeset))
-        self.stdout.write('the End')
+        self.stdout.write(self.style.SUCCESS('the End'))
