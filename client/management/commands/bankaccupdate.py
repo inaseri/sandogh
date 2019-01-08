@@ -34,7 +34,11 @@ class Command(BaseCommand):
             Negative_point = Negative_point * loan.peak // 10
         except:
             Negative_point=0
-        i.points += int(catch.objects.raw('SELECT id,price/10 as price FROM client_catch WHERE  `bankaccount_id` = '+str(i.id)+" and date <'"+str(datetimeset)+"' GROUP BY id"))
+        calsum = 0
+        colcatchsum = catch.objects.raw('SELECT id,price/10 as price FROM client_catch WHERE  `bankaccount_id` = '+str(i.id)+" and date <'"+str(datetimeset)+"' GROUP BY id")
+        for i in colcatchsum:
+            calsum +=price
+        i.points += int(calsum)
         i.points -= Negative_point
         i.save()
         print(i.id,"updated.")
