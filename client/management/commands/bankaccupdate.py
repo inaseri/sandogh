@@ -34,13 +34,13 @@ class Command(BaseCommand):
             Negative_point = Negative_point * loan.peak // 10
         except:
             Negative_point=0
-        i.points += int(catch.objects.raw('SELECT id,price/10 as price FROM client_catch WHERE  `bankaccount_id` = '+str(i.id)+" and date <'"+str(datetimeset.date())+"' GROUP BY id"))
+        i.points += int(catch.objects.raw('SELECT id,price/10 as price FROM client_catch WHERE  `bankaccount_id` = '+str(i.id)+" and date <'"+str(datetimeset)+"' GROUP BY id"))
         i.points -= Negative_point
         i.save()
         print(i.id,"updated.")
     datetimeset = datetimeset + datetime.timedelta(days=1)
     file = open(os.path.join(BASE_DIR, "datetime.txt"), "w")
-    file.write(str(datetimeset.date()))
+    file.write(str(datetimeset))
     file.close()
     print("date:" + str(datetimeset))
     print('the End')
