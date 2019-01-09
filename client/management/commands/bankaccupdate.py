@@ -12,7 +12,7 @@ class Command(BaseCommand):
         file.close()
         datetimeset = datetimeset.split("-")
         if int(datetimeset[0]) == datetime.datetime.now().date().year and  int(datetimeset[1]) == datetime.datetime.now().date().month and int(datetimeset[2]) == datetime.datetime.now().date().day:
-            CommandError('Your Database is Up To Date.')
+            raise CommandError('Your Database is Up To Date.')
         datetimeset=datetime.date(int(datetimeset[0]),int(datetimeset[1]),int(datetimeset[2]))
         acc =  bankaccount.objects.all()
         for i in acc:
