@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
-from .models import User,bankaccount,Loan_queue,catch,new_loan,new_loan_pay
+from .models import User,bankaccount,Loan_queue,catch,new_loan,new_loan_pay,telegram_active
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django import forms
@@ -13,6 +13,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 import jdatetime
+from bank.settings import telegapiKey
 # Create your views here.
 def recaptcha(request):
     recaptcha_response=request.POST.get('g-recaptcha-response','')
@@ -441,3 +442,16 @@ def add_loan_pay(request,id):
     else:
         raise Http404("access denided")
     return render(request, "tmpl1/addpeymentToLoan.html", context)
+
+@login_required
+def active_telegram(request,telegramid):
+    try:
+        tg = telegram_active.objects.get(telegramid=telegramid)
+        request.user.telegramid=tg.telegramid
+        request.user.save()
+        reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
+        url = "https://api.telegram.org/bot" + telegapiKey + "/"
+        requests.post(url + "sendMessage", data={'chat_id':request.user.telegramid,"text":  "تلگرام شما با موفقیت فعال شد.",'reply_markup': reply_markup})
+    except:
+        pass
+    return HttpResponseRedirect("/")
