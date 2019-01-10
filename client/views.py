@@ -444,9 +444,9 @@ def add_loan_pay(request,id):
     return render(request, "tmpl1/addpeymentToLoan.html", context)
 
 @login_required
-def active_telegram(request,telegramid):
+def active_telegram(request,key):
     try:
-        tg = telegram_active.objects.get(telegramid=telegramid)
+        tg = telegram_active.objects.get(key=key)
         request.user.telegramid=tg.telegramid
         request.user.save()
         reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'

@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^loan/admin/$', views.loan_admin, name="loan_admin"),
     url(r'^loan/view/(?P<id>[\w-]+)/$', views.view_loan_pay, name="view_loan_pay"),
     url(r'^loan/add/(?P<id>[\w-]+)/$', views.add_loan_pay, name="add_loan_pay"),
-    url(r'^activate/telegram/(?P<telegramid>[\w-]+)/$', views.active_telegram),
+    url(r'^activate/telegram/(?P<key>[\w-]+)/$', views.active_telegram),
     url(r'^loan/$', views.loan, name="loan"),
 #    url(r'^operator/(?P<page>[0-9a-z\.-]+)', views.operator,name='operator',),
 ]
