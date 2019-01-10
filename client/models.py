@@ -6,6 +6,7 @@ import datetime
 from jdatetime import datetime as jdatetime
 import pytz
 from dateutil import tz
+import uuid
 # Create your models here.
 def upload_to(instance,filename):
     return '%s/%s/%s'%("images/users/",instance.username,filename)
@@ -193,3 +194,10 @@ def currency(val, symbol=True, grouping=False, international=False):
    numb=str(locale.currency(val,symbol=False,grouping=grouping))
    numb = numb[:-3] +' ریال'
    return numb
+class telegram_active(models.Model):
+    telegramid = models.CharField(max_length=20,unique=True)
+    key = models.CharField(max_length=20,unique=True,default=None)
+    def save(self, *args, **kwargs):
+        if self.key is None:
+            self.key = str(uuid.uuid1())[:20]
+        super(telegram_active, self).save(*args, **kwargs)

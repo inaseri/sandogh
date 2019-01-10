@@ -1,4 +1,4 @@
-from client.models import User,catch,Loan,bankaccount
+from client.models import User,catch,Loan,bankaccount,telegram_active
 from bank.settings import telegapiKey
 import json,sys,locale
 from django.http import HttpResponse
@@ -132,8 +132,15 @@ def data(request):
                 requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"بر روی دکمه فعالسازی کلیک کنید.",'reply_markup':reply_markup})
             else:
                 reply_markup='{"keyboard":[["درخواست فعال سازی"]],"one_time_keyboard":true}'
-                requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"حساب کار بری شما فعال نشده لطفا برای فعال سازی حساب خود با آقای بغدادی تماس بگیرید. @Abbas2044",'reply_markup':reply_markup})
-                requests.post(url+"forwardMessage", data = {'chat_id':13814588,'from_chat_id':webhook['from']['id'],'message_id':webhook['message_id']})
+                try:
+                    tgact = telegram_active.objects.get(telegramid=str(webhook['from']['id']))
+                    tgact.key=None
+                    tgact.save()
+                except:
+                    tgact = telegram_active()
+                    tgact.telegramid=str(webhook['from']['id'])
+                    tgact.save()
+                requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/telegactive/"+tgact.key,'reply_markup':reply_markup})
         #handle1.close()
     except KeyError:
         requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"برنامه با مشکل مواجه شده است برای لطفا به آقای بغدادی اطلاع دهید. @Abbas2044"})
