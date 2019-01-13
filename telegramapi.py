@@ -126,14 +126,12 @@ def data(request):
                 tgact = telegram_active.objects.filter(telegramid=str(webhook['from']['id']))
 
                 if tgact.exists():
-                    u = User.objects.filter(telegramid=tgact.key)
-                    if u.exists():
+                    if u.telegramid == tgact[0].key:
                         u.password = ""
                         u.save()
                         data = {}
                         data['chat_id'] = webhook['from']['id']
-                        data[
-                            'text'] = "با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/resetpassword/telegram/" + tgact.key
+                        data['text'] = "با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/resetpassword/telegram/" + tgact[0].key
                         data['reply_markup'] = reply_markup
                         requests.post(url + "sendMessage", data=data)
                     else:
