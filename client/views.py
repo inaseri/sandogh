@@ -450,9 +450,8 @@ def active_telegram(request,key):
         tg = telegram_active.objects.get(key=key)
         request.user.telegramid=tg.telegramid
         request.user.save()
-        reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
-        url = "https://api.telegram.org/bot" + telegapiKey + "/"
-        requests.post(url + "sendMessage", data={'chat_id':request.user.telegramid,"text":  "تلگرام شما با موفقیت فعال شد.",'reply_markup': reply_markup})
+        reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":True}
+        SendMessage(request.user.telegramid,"تلگرام شما با موفقیت فعال شد.",reply_markup)
     except:
         pass
     return HttpResponseRedirect("/")
