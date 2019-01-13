@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-import requests,locale
-from bank.settings import telegapiKey
+import locale
+from client.views import SendMessage
 import datetime
 from jdatetime import datetime as jdatetime
 import pytz
@@ -53,12 +53,12 @@ class catch(models.Model):
         
         price= self.price*10000
         if self.added_with_bank:
-            reply_markup='{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
-            requests.post("https://api.telegram.org/bot"+telegapiKey+"/sendMessage", data = {'chat_id':self.bankaccount.user.telegramid,"text":"آقای  "+ self.bankaccount.user.first_name+"  "+self.bankaccount.user.last_name + " مبلغ  "+locale.currency( price, grouping=True )+" به عنوان سود سال "+str(self.year)+" به حساب شما با شماره حساب "+self.bankaccount.name+" واریز شد."})
+            text="آقای  "+ self.bankaccount.user.first_name+"  "+self.bankaccount.user.last_name + " مبلغ  "+locale.currency( price, grouping=True )+" به عنوان سود سال "+str(self.year)+" به حساب شما با شماره حساب "+self.bankaccount.name+" واریز شد."
+            SendMessage(self.bankaccount.user.telegramid,text)
         else:
-            reply_markup='{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
             #requests.post("https://api.telegram.org/bot"+telegapiKey+"/sendMessage", data = {'chat_id':self.user.telegramid,"text":"���� �����"})
-            requests.post("https://api.telegram.org/bot"+telegapiKey+"/sendMessage", data = {'chat_id':self.bankaccount.user.telegramid,"text":"آقای  "+ self.bankaccount.user.first_name+"  "+self.bankaccount.user.last_name +   " مبلغ   "+locale.currency( price, grouping=True )+" به حساب شما با شماره حساب "+self.bankaccount.name+" واریز شد."})
+            text="آقای  "+ self.bankaccount.user.first_name+"  "+self.bankaccount.user.last_name +   " مبلغ   "+locale.currency( price, grouping=True )+" به حساب شما با شماره حساب "+self.bankaccount.name+" واریز شد."
+            SendMessage(self.bankaccount.user.telegramid,text)
 
 class Message(models.Model):
     title=models.CharField(max_length=200)
@@ -70,8 +70,7 @@ class Message(models.Model):
         super(Message,self).save()
         listuser= User.objects.all()
         for u in listuser:
-            reply_markup='{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
-            requests.post("https://api.telegram.org/bot"+telegapiKey+"/sendMessage", data = {'chat_id':u.telegramid,"text":self.Text})
+            SendMessage(u.telegramid,self.Text)
             
 class Loan (models.Model):
     user =  models.ForeignKey(User) 
@@ -91,8 +90,6 @@ class Loan (models.Model):
         part_amount=(self.part_amount*10000)
         
         if self.send:
-            reply_markup='{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
-            
             mess="آقای  "+ self.user.first_name+" "+self.user.last_name + "  عزیز \n اطلاعات وام دریافتی شما  : \n"
             mess=mess+"مبلغ وام شما : "+locale.currency(loan_amount, grouping=True)+"\n"
             mess=mess+"تعداد وام های پرداختی : "+str(self.part_payed) + " از "+str(self.parts)+"\n"
@@ -101,8 +98,7 @@ class Loan (models.Model):
             p1=self.part_payed * part_amount
             p2=loan_amount - p1
             mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
-            
-            requests.post("https://api.telegram.org/bot"+telegapiKey+"/sendMessage", data = {'chat_id':self.user.telegramid,"text":mess})
+            SendMessage(self.user.telegramid,mess)
 class Loan_queue(models.Model):
     Status_choice = (
         (-1, 'In Progress'),

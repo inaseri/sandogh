@@ -1,9 +1,7 @@
 from client.models import User,catch,Loan,bankaccount,telegram_active
-from bank.settings import telegapiKey
-import json,sys,locale
+import json,locale
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-import requests
 from django.db.models import Q
 import jdatetime
 from client.views import SendMessage
@@ -19,13 +17,7 @@ def percentage(obj):
 @csrf_exempt
 def data(request):
     context={}
-    url="https://api.telegram.org/bot"+telegapiKey+"/"
-    print(telegapiKey)
     tempdata=request.POST.get('data',"")
-    webhook={}
-    #handle1=open('/home/mrprogramer/bank/static/webhook.txt','r+')
-    #handle1.write(tempdata)
-    #handle1.close()
     webhook=json.loads(tempdata)['message']
     try:
         Qr = Q()
