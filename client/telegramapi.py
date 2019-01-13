@@ -1,5 +1,5 @@
 from bank.settings import telegapiKey
-import requests
+import requests,json
 
 def SendMessage(chat_id,text,reply_markup={}):
     url = "https://api.telegram.org/bot" + telegapiKey + "/"
