@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 import jdatetime
 from bank.settings import telegapiKey
+import uuid
 # Create your views here.
 def recaptcha(request):
     recaptcha_response=request.POST.get('g-recaptcha-response','')
@@ -452,6 +453,21 @@ def active_telegram(request,key):
         reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
         url = "https://api.telegram.org/bot" + telegapiKey + "/"
         requests.post(url + "sendMessage", data={'chat_id':request.user.telegramid,"text":  "تلگرام شما با موفقیت فعال شد.",'reply_markup': reply_markup})
+    except:
+        pass
+    return HttpResponseRedirect("/")
+
+def reset_password_telegram(request,key):
+    try:
+        tg = telegram_active.objects.get(key=key)
+        u = User.objects.get(telegramid = tg.telegramid)
+        if u.password=="":
+            newpass = str(uuid.uuid1())[:4]
+            u.set_password(newpass)
+            u.save()
+            reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
+            url = "https://api.telegram.org/bot" + telegapiKey + "/"
+            requests.post(url + "sendMessage", data={'chat_id':request.user.telegramid,"text":  "پسورد جدید:"+newpass,'reply_markup': reply_markup})
     except:
         pass
     return HttpResponseRedirect("/")
