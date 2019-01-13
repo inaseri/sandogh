@@ -124,7 +124,8 @@ def data(request):
             elif webhook['text'] == "تغییر گذرواژه سایت":
                 reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
                 tgact = telegram_active.objects.filter(telegramid=str(webhook['from']['id']))
-
+                print(tgact[0].telegramid)
+                print(u.telegramid)
                 if tgact.exists():
                     tgact = tgact[0]
                     if u.telegramid == tgact.telegramid:
