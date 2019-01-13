@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
-from .models import User,bankaccount,Loan_queue,catch,new_loan,new_loan_pay,telegram_active
+from client.models import User,bankaccount,Loan_queue,catch,new_loan,new_loan_pay,telegram_active
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django import forms
