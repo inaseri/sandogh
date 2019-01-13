@@ -121,37 +121,36 @@ def data(request):
                 
                 requests.post("https://api.telegram.org/bot"+telegapiKey+"/sendMessage", data = {'chat_id':lo.user.telegramid,"text":mess})
                 return HttpResponse(json.dumps(context), content_type="application/json")
-
+            elif webhook['text'] == "تغییر گذرواژه سایت":
                 reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
-            requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"این دستور وجود ندارد.",
-                                                     'reply_markup':reply_markup})
-        elif webhook['text'] == "تغییر گذرواژه سایت":
-            reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
-            tgact = telegram_active.objects.filter(telegramid=str(webhook['from']['id']))
+                tgact = telegram_active.objects.filter(telegramid=str(webhook['from']['id']))
 
-            if tgact.exists():
-                u = User.objects.filter(telegramid=tgact.key)
-                if u.exists():
-                    u.password=""
-                    u.save()
-                    data={}
-                    data['chat_id'] = webhook['from']['id']
-                    data['text'] = "با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/resetpassword/telegram/" + tgact.key
-                    data['reply_markup'] = reply_markup
-                    requests.post(url + "sendMessage", data=data)
+                if tgact.exists():
+                    u = User.objects.filter(telegramid=tgact.key)
+                    if u.exists():
+                        u.password = ""
+                        u.save()
+                        data = {}
+                        data['chat_id'] = webhook['from']['id']
+                        data[
+                            'text'] = "با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/resetpassword/telegram/" + tgact.key
+                        data['reply_markup'] = reply_markup
+                        requests.post(url + "sendMessage", data=data)
+                    else:
+                        data = {}
+                        data['chat_id'] = webhook['from']['id']
+                        data['text'] = "تلگرام شما به هیچ حسابی وصل نمی باشد. توسط مدیر آن را بازیابی کنید."
+                        data['reply_markup'] = reply_markup
+                        requests.post(url + "sendMessage", data=data)
                 else:
-                    data={}
+                    data = {}
                     data['chat_id'] = webhook['from']['id']
                     data['text'] = "تلگرام شما به هیچ حسابی وصل نمی باشد. توسط مدیر آن را بازیابی کنید."
                     data['reply_markup'] = reply_markup
                     requests.post(url + "sendMessage", data=data)
-            else:
-                data={}
-                data['chat_id'] = webhook['from']['id']
-                data['text'] = "تلگرام شما به هیچ حسابی وصل نمی باشد. توسط مدیر آن را بازیابی کنید."
-                data['reply_markup'] = reply_markup
-                requests.post(url + "sendMessage", data=data)
-            pass
+                return HttpResponse(json.dumps(context), content_type="application/json")
+            reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
+            requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"این دستور وجود ندارد.",'reply_markup':reply_markup})
         else:
             #reply_markup='{"keyboard":[["Yes","No"],["Maybe"],["1","2","3"]],"one_time_keyboard":true}'
             if webhook['text'] == "/start":
