@@ -465,6 +465,8 @@ def reset_password_telegram(request,key):
             newpass = str(uuid.uuid1())[:4]
             u.set_password(newpass)
             u.save()
+            tg.key=None
+            tg.save()
             reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"]],"one_time_keyboard":true}'
             url = "https://api.telegram.org/bot" + telegapiKey + "/"
             requests.post(url + "sendMessage", data={'chat_id':u.telegramid,"text":  "پسورد جدید:"+newpass,'reply_markup': reply_markup})

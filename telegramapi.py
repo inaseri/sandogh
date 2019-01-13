@@ -161,7 +161,7 @@ def data(request):
                     tgact = telegram_active()
                     tgact.telegramid=str(webhook['from']['id'])
                     tgact.save()
-                requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/activate/telegram/"+tgact.key,'reply_markup':reply_markup})
+                requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"برای فعال سازی تلگرام میبایست با آدرس زیر احراز هویت بشوید.\nhttp://sandogh-zainab.vps-vds.ir/activate/telegram/"+tgact.key,'reply_markup':reply_markup})
         #handle1.close()
     except KeyError:
         requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"برنامه با مشکل مواجه شده است برای لطفا به آقای بغدادی اطلاع دهید. @Abbas2044"})
