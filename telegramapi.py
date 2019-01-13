@@ -33,31 +33,29 @@ def data(request):
         Qr = Qr & (Q(**{"telegramid": webhook['from']['id']}))
         u=User.objects.filter(Qr)
         if u.exists():
-            try:
-                webhook['contact']
-                if webhook['from']['id'] != 13814588:#13814588 #57113444
-                    #handle1.write(str(webhook['from']['id']))
-                    r = requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"شما نمیتوانید حساب کسی را فعال کنید برای فعال کردن حساب کاربری با @Abbas2044 ارتباط بر قرار کنید."})
-                else:
-                    context['cellphone']=webhook['contact']['phone_number'][-10:]
-                    Qr = Q()
-                    Qr = Qr & (Q(**{"cellphone__contains": context['cellphone']}))
-                    u=User.objects.filter(Qr)
-                    if u.exists():
-                        u=u[0]
-                        context['contact_user_id']=webhook['contact']['user_id']
-                        reply_markup='{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
-                        requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"تلگرام حساب کاربری آقای "+u.first_name+" "+u.last_name+" با شماره تلفن"+u.cellphone + " فعال شد."})
-                        requests.post(url+"sendMessage", data = {'chat_id':webhook['contact']['user_id'],"text":"حساب کاربری شما فعال شد.",'reply_markup':reply_markup})
-                        u.telegramid=str(webhook['contact']['user_id'])
-                        u.save()
-                return HttpResponse(json.dumps(context), content_type="application/json")
-            except KeyError:
-                pass
+            # try:
+            #     webhook['contact']
+            #     if webhook['from']['id'] != 13814588:#13814588 #57113444
+            #         #handle1.write(str(webhook['from']['id']))
+            #         r = requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"شما نمیتوانید حساب کسی را فعال کنید برای فعال کردن حساب کاربری با @Abbas2044 ارتباط بر قرار کنید."})
+            #     else:
+            #         context['cellphone']=webhook['contact']['phone_number'][-10:]
+            #         Qr = Q()
+            #         Qr = Qr & (Q(**{"cellphone__contains": context['cellphone']}))
+            #         u=User.objects.filter(Qr)
+            #         if u.exists():
+            #             u=u[0]
+            #             context['contact_user_id']=webhook['contact']['user_id']
+            #             reply_markup='{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
+            #             requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"تلگرام حساب کاربری آقای "+u.first_name+" "+u.last_name+" با شماره تلفن"+u.cellphone + " فعال شد."})
+            #             requests.post(url+"sendMessage", data = {'chat_id':webhook['contact']['user_id'],"text":"حساب کاربری شما فعال شد.",'reply_markup':reply_markup})
+            #             u.telegramid=str(webhook['contact']['user_id'])
+            #             u.save()
+            #     return HttpResponse(json.dumps(context), content_type="application/json")
+            # except KeyError:
+            #     pass
+            u=u[0]
             if webhook['text'] == "وضعیت حساب":
-                Qr = Q()
-                Qr = Qr & (Q(**{"telegramid": webhook['from']['id']}))
-                u=User.objects.get(Qr)
                 Qr = Q()
                 Qr = Qr & (Q(**{"user": u}))
                 bankaccounts = bankaccount.objects.filter(Qr)
@@ -96,9 +94,6 @@ def data(request):
                     requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":Message,'reply_markup':reply_markup})
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "وضعیت وام":
-                Qr = Q()
-                Qr = Qr & (Q(**{"telegramid": webhook['from']['id']}))
-                u=User.objects.get(Qr)
                 lo=Loan.objects.get(user=u)
                 reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
                
@@ -124,8 +119,6 @@ def data(request):
             elif webhook['text'] == "تغییر گذرواژه سایت":
                 reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
                 tgact = telegram_active.objects.filter(telegramid=str(webhook['from']['id']))
-                print(tgact[0].telegramid)
-                print(u.telegramid)
                 if tgact.exists():
                     tgact = tgact[0]
                     if u.telegramid == tgact.telegramid:
