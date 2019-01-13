@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 from django.db.models import Q
 import jdatetime
+from client.views import SendMessage
 
 def percentage(obj):
     bnk = bankaccount.objects.all()
@@ -75,7 +76,7 @@ def data(request):
                     catchs=catch.objects.filter(Qr)
                     price=price*10000
                     locale.setlocale( locale.LC_ALL, 'fa_IR' )
-                    reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
+                    reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
                     Message = "تاریخ:" + str(jdatetime.datetime.now().year)+"/"+str(jdatetime.datetime.now().month)+"/"+str(jdatetime.datetime.now().day)+"\n"
                     Message+="شماره حساب: "+acc.name+"\n"
                     Message=Message+"تعداد قسط پرداختی توسط شما:"+str(count)+"\nموجودی حساب شما:"+locale.currency( price, grouping=True )
@@ -91,11 +92,11 @@ def data(request):
                         Message += "\nسود شما : در حال حاضر محاسبه نشده است."
                         Message += "\nبالاترین سود :در حال حاضر محاسبه نشده است."
                     Message += "\nتعداد افرادی که بیشتر از شما واریزی داشته اند :" + str(bankaccount.objects.filter(points__gt=acc.points).count())
-                    requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":Message,'reply_markup':reply_markup})
+                    SendMessage(webhook['from']['id'], Message, reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "وضعیت وام":
                 lo=Loan.objects.get(user=u)
-                reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
+                reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
                
                 
                  
@@ -113,11 +114,10 @@ def data(request):
                 p1=lo.part_payed * part_amount
                 p2=loan_amount - p1
                 mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
-                
-                requests.post("https://api.telegram.org/bot"+telegapiKey+"/sendMessage", data = {'chat_id':lo.user.telegramid,"text":mess})
+                SendMessage(lo.user.telegramid, mess,reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "تغییر گذرواژه سایت":
-                reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
+                reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
                 tgact = telegram_active.objects.filter(telegramid=str(webhook['from']['id']))
                 if tgact.exists():
                     tgact = tgact[0]
@@ -126,33 +126,24 @@ def data(request):
                         tgact.save()
                         u.password = ""
                         u.save()
-                        data = {}
-                        data['chat_id'] = webhook['from']['id']
-                        data['text'] = "با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/resetpassword/telegram/" + tgact.key
-                        data['reply_markup'] = reply_markup
-                        requests.post(url + "sendMessage", data=data)
+                        text = "با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/resetpassword/telegram/" + tgact.key
+                        SendMessage(webhook['from']['id'], text, reply_markup)
                     else:
-                        data = {}
-                        data['chat_id'] = webhook['from']['id']
-                        data['text'] = "تلگرام شما به هیچ حسابی وصل نمی باشد. توسط مدیر آن را بازیابی کنید."
-                        data['reply_markup'] = reply_markup
-                        requests.post(url + "sendMessage", data=data)
+                        text = "تلگرام شما به هیچ حسابی وصل نمی باشد. توسط مدیر آن را بازیابی کنید."
+                        SendMessage(webhook['from']['id'], text, reply_markup)
                 else:
-                    data = {}
-                    data['chat_id'] = webhook['from']['id']
-                    data['text'] = "تلگرام شما به هیچ حسابی وصل نمی باشد. توسط مدیر آن را بازیابی کنید."
-                    data['reply_markup'] = reply_markup
-                    requests.post(url + "sendMessage", data=data)
+                    text = "تلگرام شما به هیچ حسابی وصل نمی باشد. توسط مدیر آن را بازیابی کنید."
+                    SendMessage(webhook['from']['id'], text, reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
-            reply_markup = '{"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":true}'
-            requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"این دستور وجود ندارد.",'reply_markup':reply_markup})
+            reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
+            text = "این دستور وجود ندارد."
+            SendMessage(webhook['from']['id'], text, reply_markup)
         else:
             #reply_markup='{"keyboard":[["Yes","No"],["Maybe"],["1","2","3"]],"one_time_keyboard":true}'
+            reply_markup={"keyboard":[["درخواست فعال سازی"]],"one_time_keyboard":True}
             if webhook['text'] == "/start":
-                reply_markup='{"keyboard":[["درخواست فعال سازی"]],"one_time_keyboard":true}'
-                requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"بر روی دکمه فعالسازی کلیک کنید.",'reply_markup':reply_markup})
+                text="بر روی دکمه فعالسازی کلیک کنید."
             else:
-                reply_markup='{"keyboard":[["درخواست فعال سازی"]],"one_time_keyboard":true}'
                 try:
                     tgact = telegram_active.objects.get(telegramid=str(webhook['from']['id']))
                     tgact.key=None
@@ -161,8 +152,9 @@ def data(request):
                     tgact = telegram_active()
                     tgact.telegramid=str(webhook['from']['id'])
                     tgact.save()
-                requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"برای فعال سازی تلگرام میبایست با آدرس زیر احراز هویت بشوید.\nhttp://sandogh-zainab.vps-vds.ir/activate/telegram/"+tgact.key,'reply_markup':reply_markup})
+                text = "برای فعال سازی تلگرام میبایست با آدرس زیر احراز هویت بشوید.\nhttp://sandogh-zainab.vps-vds.ir/activate/telegram/"+tgact.key
+            SendMessage(webhook['from']['id'],text,reply_markup)
         #handle1.close()
     except KeyError:
-        requests.post(url+"sendMessage", data = {'chat_id':webhook['from']['id'],"text":"برنامه با مشکل مواجه شده است برای لطفا به آقای بغدادی اطلاع دهید. @Abbas2044"})
+        SendMessage(webhook['from']['id'],"برنامه با مشکل مواجه شده است برای لطفا به آقای بغدادی اطلاع دهید. @Abbas2044")
     return HttpResponse(json.dumps(context), content_type="application/json")
