@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.http import JsonResponse
-from client.models import User,bankaccount,Loan_queue,catch,new_loan,new_loan_pay,telegram_active
+from .models import User,bankaccount,Loan_queue,catch,new_loan,new_loan_pay,telegram_active
 from django.contrib.auth import authenticate,login,logout
 from django.core.validators import validate_email
 from django import forms
@@ -13,8 +13,8 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 import jdatetime
-from bank.settings import telegapiKey
 import uuid
+from .telegramapi import SendMessage
 # Create your views here.
 def recaptcha(request):
     recaptcha_response=request.POST.get('g-recaptcha-response','')
@@ -471,7 +471,3 @@ def reset_password_telegram(request,key):
     except:
         pass
     return HttpResponseRedirect("/")
-
-def SendMessage(chat_id,text,reply_markup={}):
-    url = "https://api.telegram.org/bot" + telegapiKey + "/"
-    return requests.post(url + "sendMessage",data={'chat_id':chat_id,"text":text,'reply_markup': json.dumps(reply_markup)})

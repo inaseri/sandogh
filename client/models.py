@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import locale
-from client.views import SendMessage
+from .telegramapi import SendMessage
 import datetime
 from jdatetime import datetime as jdatetime
 import pytz
