@@ -61,7 +61,9 @@ class catch(models.Model):
             requests.post("https://api.telegram.org/bot"+telegapiKey+"/sendMessage", data = {'chat_id':self.bankaccount.user.telegramid,"text":"آقای  "+ self.bankaccount.user.first_name+"  "+self.bankaccount.user.last_name +   " مبلغ   "+locale.currency( price, grouping=True )+" به حساب شما با شماره حساب "+self.bankaccount.name+" واریز شد."})
 
 class Message(models.Model):
+    title=models.CharField(max_length=200)
     Text= models.TextField()
+    date = models.DateTimeField(auto_now=True)
     def has_delete_permission(self, request, obj=None): # note the obj=None
         return False
     def save(self):
