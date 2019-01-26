@@ -26,7 +26,7 @@ SECRET_KEY = 'n0bkxd%6y!w30ng#sl_x5^m(-m%ui3-3(c=fmcafom992m0k7%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sandogh-zainab.vps-vds.ir',"127.0.0.1"]
+ALLOWED_HOSTS = ['sandogh-zainab.vps-vds.com',"127.0.0.1"]
 
 
 # Application definition
