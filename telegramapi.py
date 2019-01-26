@@ -118,7 +118,7 @@ def data(request):
                         tgact.save()
                         u.password = ""
                         u.save()
-                        text = "با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.ir/resetpassword/telegram/" + tgact.key
+                        text = "با آدرس زیر وارد سامانه صندوق شده و لاگین کنین\nhttp://sandogh-zainab.vps-vds.com/resetpassword/telegram/" + tgact.key
                         SendMessage(webhook['from']['id'], text, reply_markup)
                     else:
                         text = "تلگرام شما به هیچ حسابی وصل نمی باشد. توسط مدیر آن را بازیابی کنید."
@@ -144,7 +144,7 @@ def data(request):
                     tgact = telegram_active()
                     tgact.telegramid=str(webhook['from']['id'])
                     tgact.save()
-                text = "برای فعال سازی تلگرام میبایست با آدرس زیر احراز هویت بشوید.\nhttp://sandogh-zainab.vps-vds.ir/activate/telegram/"+tgact.key
+                text = "برای فعال سازی تلگرام میبایست با آدرس زیر احراز هویت بشوید.\nhttps://sandogh-zainab.vps-vds.com/activate/telegram/"+tgact.key
             SendMessage(webhook['from']['id'],text,reply_markup)
         #handle1.close()
     except KeyError:
