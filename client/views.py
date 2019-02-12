@@ -403,7 +403,7 @@ def loan_admin(request):
     context = {}
     if request.user.is_superuser:
         context['loan'] = new_loan.objects.filter()
-        print(context['loan'][0].loan_queue)
+#        print(context['loan'][0].loan_queue)
     else:
         raise Http404("access denided")
     return render(request, "tmpl1/loan_admin.html", context)
