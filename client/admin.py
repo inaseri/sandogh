@@ -22,15 +22,8 @@ class UserAdmin2(UserAdmin):
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        (_('Extra Information'), {'fields': ('image', 'birthday', 'cellphone', 'username_clear', 'telegramid', 'gender', 'codemelli')}),
+        # (_('Extra Information'), {'fields': ('image', 'birthday', 'cellphone', 'username_clear', 'telegramid', 'gender', 'codemelli')}),
     )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2'),
-        }),
-    )
-    pass
 
 
 def BankaccoutName(obj):
