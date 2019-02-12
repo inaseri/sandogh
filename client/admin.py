@@ -16,10 +16,16 @@ class loanPayInline(admin.StackedInline):
 #     search_fields=["id","username","email","first_name","last_name"]
 #     list_filter=["is_active","is_staff","is_superuser","gender"]
 #     readonly_fields = ('username_clear',)
-    # fieldsets += (None, {'fields': ('username', 'password')})
-    # list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+#     fieldsets = (
+#         (None, {'fields': ('username', 'password')}),
+#         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+#         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+#                                        'groups', 'user_permissions')}),
+#         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+#     )
+
 UserAdmin.list_display += ('is_active','is_superuser','gender',)
-# UserAdmin.list_filter += ('new_field',)
+UserAdmin.list_filter += ('gender',)
 # UserAdmin.fieldsets += ('new_field',)
 
 def BankaccoutName(obj):
