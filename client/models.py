@@ -13,7 +13,7 @@ def upload_to(instance,filename):
 class User(AbstractUser):
     image = models.ImageField(upload_to=upload_to,blank=True)
     birthday=models.DateField(blank=True,null=True)
-    cellphone = models.CharField(max_length=15,unique=True,null=True)
+    cellphone = models.CharField(max_length=15,unique=True,null=True,blank=True)
     username_clear = models.CharField(max_length=150,unique=True,null=True)
     telegramid = models.CharField(max_length=15,unique=True,null=True,blank=True,default=None)
     gender_list = (
