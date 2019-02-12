@@ -3,7 +3,7 @@ import locale
 from .models import User,catch,Message,Loan,bankaccount,periodic_payment
 from .models import new_loan,new_loan_pay,Loan_queue
 import datetime
-from django.contrib.auth.admin import UserAdmin
+# from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 class CatchInline(admin.StackedInline):
     model = catch
@@ -11,12 +11,12 @@ class CatchInline(admin.StackedInline):
 class loanPayInline(admin.StackedInline):
     model = new_loan_pay
     extra = 1
-# class UserAdmin(admin.ModelAdmin):
-#     list_display=["username","email","first_name","last_name","is_active","is_staff","is_superuser","gender"]
-#     search_fields=["id","username","email","first_name","last_name"]
-#     list_filter=["is_active","is_staff","is_superuser","gender"]
-#     readonly_fields = ('username_clear',)
-#     pass
+class UserAdmin(admin.ModelAdmin):
+    list_display=["username","email","first_name","last_name","is_active","is_staff","is_superuser","gender"]
+    search_fields=["id","username","email","first_name","last_name"]
+    list_filter=["is_active","is_staff","is_superuser","gender"]
+    readonly_fields = ('username_clear',)
+    pass
 
 
 def BankaccoutName(obj):
