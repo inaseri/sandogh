@@ -11,13 +11,16 @@ class CatchInline(admin.StackedInline):
 class loanPayInline(admin.StackedInline):
     model = new_loan_pay
     extra = 1
-class UserAdmin2(UserAdmin):
-    list_display=["username","email","first_name","last_name","is_active","is_staff","is_superuser","gender"]
-    search_fields=["id","username","email","first_name","last_name"]
-    list_filter=["is_active","is_staff","is_superuser","gender"]
-    readonly_fields = ('username_clear',)
+# class UserAdmin2(UserAdmin):
+#     list_display=["username","email","first_name","last_name","is_active","is_staff","is_superuser","gender"]
+#     search_fields=["id","username","email","first_name","last_name"]
+#     list_filter=["is_active","is_staff","is_superuser","gender"]
+#     readonly_fields = ('username_clear',)
     # fieldsets += (None, {'fields': ('username', 'password')})
-
+    # list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+UserAdmin.list_display += ('is_active','is_superuser','gender',)
+# UserAdmin.list_filter += ('new_field',)
+# UserAdmin.fieldsets += ('new_field',)
 
 def BankaccoutName(obj):
     return ("%s %s" % (obj.user.first_name, obj.user.last_name))
@@ -99,7 +102,7 @@ class LoanQueueAdmin(admin.ModelAdmin):
     list_filter=["date","status"]
 
 admin.site.register(bankaccount, bankaccountAdmin)
-admin.site.register(User, UserAdmin2)
+admin.site.register(User, UserAdmin)
 admin.site.register(catch,catchAdmin)
 admin.site.register(Message)
 admin.site.register(Loan,catchLoan)
