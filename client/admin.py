@@ -16,6 +16,20 @@ class UserAdmin2(UserAdmin):
     search_fields=["id","username","email","first_name","last_name"]
     list_filter=["is_active","is_staff","is_superuser","gender"]
     readonly_fields = ('username_clear',)
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Extra Information'), {'fields': ('image', 'birthday', 'cellphone', 'username_clear', 'telegramid', 'gender', 'codemelli')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2'),
+        }),
+    )
     pass
 
 
