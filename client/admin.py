@@ -26,7 +26,7 @@ class loanPayInline(admin.StackedInline):
 
 UserAdmin.list_display += ('is_active','is_superuser','gender',)
 UserAdmin.list_filter += ('gender',)
-UserAdmin.fieldsets += ('Extra Fields',{'fields': ('image', 'birthday','cellphone','username_clear','telegramid','gender','codemelli')})
+UserAdmin.fieldsets += (('Extra Fields',{'fields': ('image', 'birthday','cellphone','username_clear','telegramid','gender','codemelli')}),)
 UserAdmin.readonly_fields +=('username_clear',)
 
 def BankaccoutName(obj):
