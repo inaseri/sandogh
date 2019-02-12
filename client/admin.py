@@ -16,7 +16,7 @@ class UserAdmin2(UserAdmin):
     search_fields=["id","username","email","first_name","last_name"]
     list_filter=["is_active","is_staff","is_superuser","gender"]
     readonly_fields = ('username_clear',)
-    fieldsets += (None, {'fields': ('username', 'password')})
+    # fieldsets += (None, {'fields': ('username', 'password')})
 
 
 def BankaccoutName(obj):
