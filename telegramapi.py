@@ -1,4 +1,4 @@
-from client.models import User,catch,Loan,bankaccount,telegram_active
+from client.models import User,catch,bankaccount,telegram_active,Loan_queue
 import json,locale
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -87,7 +87,9 @@ def data(request):
                     SendMessage(webhook['from']['id'], Message, reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "وضعیت وام":
-                lo=Loan.objects.get(user=u)
+                bk = bankaccount.objects.filter(user=u)
+                lq = Loan_queue.objects.get(bankaccount=bk)
+                lo={}
                 reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
                
                 
