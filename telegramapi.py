@@ -97,17 +97,17 @@ def data(request):
                 locale.setlocale( locale.LC_ALL, 'fa_IR' )
                 #locale.setlocale( locale.LC_ALL, 'fa' )
                 
-                loan_amount= ( lo.loan_amount*10000)
-                part_amount=( lo.part_amount*10000)
+                # loan_amount= ( lo.loan_amount*10000)
+                # part_amount=( lo.part_amount*10000)
                 
-                mess="آقای  "+ lo.user.first_name+" "+lo.user.last_name + "  عزیز \n اطلاعات وام دریافتی شما  : \n"
-                mess=mess+"مبلغ وام شما : "+locale.currency(loan_amount, grouping=True)+"\n"
-                mess=mess+"تعداد اقساط پرداختی : "+str(lo.part_payed) + " از "+str(lo.parts)+"\n"
-                mess=mess+"مبلغ هر قسط :"+ locale.currency(part_amount, grouping=True)+"\n "
+                mess="آقای  "+ bk.user.first_name+" "+bk.user.last_name + "  عزیز \n اطلاعات وام دریافتی شما  : \n"
+                # mess=mess+"مبلغ وام شما : "+locale.currency(loan_amount, grouping=True)+"\n"
+                # mess=mess+"تعداد اقساط پرداختی : "+str(lo.part_payed) + " از "+str(lo.parts)+"\n"
+                # mess=mess+"مبلغ هر قسط :"+ locale.currency(part_amount, grouping=True)+"\n "
                 
-                p1=lo.part_payed * part_amount
-                p2=loan_amount - p1
-                mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
+                # p1=lo.part_payed * part_amount
+                # p2=loan_amount - p1
+                # mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
                 SendMessage(lo.user.telegramid, mess,reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "تغییر گذرواژه سایت":
