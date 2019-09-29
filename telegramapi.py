@@ -105,7 +105,7 @@ def data(request):
                 mess += "تعداد وام های تصویه شده:"+str(len(Loan_queue.objects.filter(bankaccount=bk,status=1)))+"\n"
                 mess += "تعداد وام های در حال پردازش:" + str(len(Loan_queue.objects.filter(bankaccount=bk, status=-1))) + "\n"
                 if len(Loan_queue.objects.filter(bankaccount=bk, status=0)):
-                    new_lo=new_loan.objects.get(new_loan=Loan_queue.objects.filter(bankaccount=bk, status=0))
+                    new_lo=new_loan.objects.get(loan_queue=Loan_queue.objects.filter(bankaccount=bk, status=0))
                     mess+="تعداد وام عقب افتاده ی شما:"+UnpaidLoan(new_lo)+"\n"
                     mess += "تعداد وام پرداخت شده ی شما:" + CountPayLoan(new_lo)+"\n"
                     mess += "تعداد کل قسط های شما:" + CountAllLoan(new_lo)+"\n"
