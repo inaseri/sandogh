@@ -1,4 +1,4 @@
-from client.models import User,catch,bankaccount,telegram_active,Loan_queue
+from client.models import User,catch,bankaccount,telegram_active,Loan_queue,new_loan
 import json,locale
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -105,9 +105,10 @@ def data(request):
                 mess += "تعداد وام های تصویه شده:"+str(len(Loan_queue.objects.filter(bankaccount=bk,status=1)))+"\n"
                 mess += "تعداد وام های در حال پردازش:" + str(len(Loan_queue.objects.filter(bankaccount=bk, status=-1))) + "\n"
                 if len(Loan_queue.objects.filter(bankaccount=bk, status=0)):
-                    mess+="تعداد وام عقب افتاده ی شما:"+UnpaidLoan(Loan_queue.objects.get(bankaccount=bk, status=0))+"\n"
-                    mess += "تعداد وام پرداخت شده ی شما:" + CountPayLoan(Loan_queue.objects.get(bankaccount=bk, status=0))+"\n"
-                    mess += "تعداد کل قسط های شما:" + CountAllLoan(Loan_queue.objects.get(bankaccount=bk, status=0))+"\n"
+                    new_lo=new_loan.objects.get(new_loan=Loan_queue.objects.filter(bankaccount=bk, status=0))
+                    mess+="تعداد وام عقب افتاده ی شما:"+UnpaidLoan(new_lo)+"\n"
+                    mess += "تعداد وام پرداخت شده ی شما:" + CountPayLoan(new_lo)+"\n"
+                    mess += "تعداد کل قسط های شما:" + CountAllLoan(new_lo)+"\n"
                 # p1=lo.part_payed * part_amount
                 # p2=loan_amount - p1
                 # mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
