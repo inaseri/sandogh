@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 import jdatetime
 from client.views import SendMessage
-
+from client.admin import Inventory,CountAllLoan,CountPayLoan,UnpaidLoan
 def percentage(obj):
     bnk = bankaccount.objects.all()
     j=0
@@ -102,10 +102,13 @@ def data(request):
                 
                 mess="آقای  "+ bk[0].user.first_name+" "+bk[0].user.last_name + "  عزیز \n"
                 mess += "تعداد وام هایی که به شما داده شده است:"+str(len(lq))+"\n"
-                # mess=mess+"مبلغ وام شما : "+locale.currency(loan_amount, grouping=True)+"\n"
-                # mess=mess+"تعداد اقساط پرداختی : "+str(lo.part_payed) + " از "+str(lo.parts)+"\n"
-                # mess=mess+"مبلغ هر قسط :"+ locale.currency(part_amount, grouping=True)+"\n "
-                
+                mess += "تعداد وام های تصویه شده:"+str(len(Loan_queue.objects.filter(bankaccount=bk,status=1)))+"\n"
+                mess += "تعداد وام های در حال پردازش:" + str(len(Loan_queue.objects.filter(bankaccount=bk, status=-1))) + "\n"
+                if len(Loan_queue.objects.filter(bankaccount=bk, status=0))):
+                    mess += "مبلغ وام فعلیه شما:" + Inventory(Loan_queue.objects.get(bankaccount=bk, status=0))+"\n"
+                    mess+="تعداد وام عقب افتاده ی شما:"+UnpaidLoan(Loan_queue.objects.get(bankaccount=bk, status=0))+"\n"
+                    mess += "تعداد وام پرداخت شده ی شما:" + CountPayLoan(Loan_queue.objects.get(bankaccount=bk, status=0))+"\n"
+                    mess += "تعداد کل قسط های شما:" + CountAllLoan(Loan_queue.objects.get(bankaccount=bk, status=0))+"\n"
                 # p1=lo.part_payed * part_amount
                 # p2=loan_amount - p1
                 # mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
