@@ -100,7 +100,8 @@ def data(request):
                 # loan_amount= ( lo.loan_amount*10000)
                 # part_amount=( lo.part_amount*10000)
                 
-                mess="آقای  "+ bk[0].user.first_name+" "+bk[0].user.last_name + "  عزیز \n اطلاعات وام دریافتی شما  : \n"
+                mess="آقای  "+ bk[0].user.first_name+" "+bk[0].user.last_name + "  عزیز \n"
+                mess += "تعداد وام هایی که به شما داده شده است:"+str(len(lq))+"\n"
                 # mess=mess+"مبلغ وام شما : "+locale.currency(loan_amount, grouping=True)+"\n"
                 # mess=mess+"تعداد اقساط پرداختی : "+str(lo.part_payed) + " از "+str(lo.parts)+"\n"
                 # mess=mess+"مبلغ هر قسط :"+ locale.currency(part_amount, grouping=True)+"\n "
