@@ -100,7 +100,7 @@ def data(request):
                 # loan_amount= ( lo.loan_amount*10000)
                 # part_amount=( lo.part_amount*10000)
                 
-                mess="آقای  "+ bk.user.first_name+" "+bk.user.last_name + "  عزیز \n اطلاعات وام دریافتی شما  : \n"
+                mess="آقای  "+ bk[0].user.first_name+" "+bk[0].user.last_name + "  عزیز \n اطلاعات وام دریافتی شما  : \n"
                 # mess=mess+"مبلغ وام شما : "+locale.currency(loan_amount, grouping=True)+"\n"
                 # mess=mess+"تعداد اقساط پرداختی : "+str(lo.part_payed) + " از "+str(lo.parts)+"\n"
                 # mess=mess+"مبلغ هر قسط :"+ locale.currency(part_amount, grouping=True)+"\n "
@@ -108,7 +108,7 @@ def data(request):
                 # p1=lo.part_payed * part_amount
                 # p2=loan_amount - p1
                 # mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
-                SendMessage(bk.user.telegramid, mess,reply_markup)
+                SendMessage(bk[0].user.telegramid, mess,reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "تغییر گذرواژه سایت":
                 reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
