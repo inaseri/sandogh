@@ -88,7 +88,7 @@ def data(request):
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "وضعیت وام":
                 bk = bankaccount.objects.filter(user=u)
-                lq = Loan_queue.objects.get(bankaccount=bk)
+                lq = Loan_queue.objects.filter(bankaccount=bk)
                 lo={}
                 reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
                
