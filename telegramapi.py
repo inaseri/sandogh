@@ -102,12 +102,12 @@ def data(request):
                 
                 mess="آقای  "+ bk[0].user.first_name+" "+bk[0].user.last_name + "  عزیز \n"
                 mess += "تعداد وام هایی که به شما داده شده است:"+str(len(lq))+"\n"
-                mess += "تعداد وام های تصویه شده:"+str(len(Loan_queue.objects.filter(bankaccount=bk,status=1)))+"\n"
+                mess += "تعداد وام های تسویه شده:"+str(len(Loan_queue.objects.filter(bankaccount=bk,status=1)))+"\n"
                 mess += "تعداد وام های در حال پردازش:" + str(len(Loan_queue.objects.filter(bankaccount=bk, status=-1))) + "\n"
                 if len(Loan_queue.objects.filter(bankaccount=bk, status=0)):
                     new_lo=new_loan.objects.get(loan_queue=Loan_queue.objects.filter(bankaccount=bk, status=0))
-                    mess+="تعداد وام عقب افتاده ی شما:"+str(UnpaidLoan(new_lo))+"\n"
-                    mess += "تعداد وام پرداخت شده ی شما:" + str(CountPayLoan(new_lo))+"\n"
+                    mess+="تعداد قسط عقب افتاده ی شما:"+str(UnpaidLoan(new_lo))+"\n"
+                    mess += "تعداد قسط پرداخت شده ی شما:" + str(CountPayLoan(new_lo))+"\n"
                     mess += "تعداد کل قسط های شما:" + str(CountAllLoan(new_lo))+"\n"
                 # p1=lo.part_payed * part_amount
                 # p2=loan_amount - p1
