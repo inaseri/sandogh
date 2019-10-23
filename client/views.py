@@ -70,7 +70,7 @@ def bankacc(request,id):
     except:
         return JsonResponse({"error":"Perimition denided"})
 def Login(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return HttpResponseRedirect(request.GET.get("next","/"))
     context ={}
     if request.method == 'POST':
@@ -106,7 +106,7 @@ def Login(request):
     return render(request,"tmpl1/accounts/login.html",context)
 
 def recovery(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return HttpResponseRedirect("/")
     context ={}
     if request.method == 'POST': 
