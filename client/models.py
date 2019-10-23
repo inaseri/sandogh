@@ -24,7 +24,7 @@ class User(AbstractUser):
     codemelli = models.CharField(max_length=12,unique=True,null=True,blank=True)
 #     shenase_hesab = models.IntegerField(unique=True,null=True,blank=True)
 class bankaccount(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     name = models.CharField(max_length=8,unique=True)
     createTime = models.DateTimeField(auto_now=True)
     count = models.IntegerField(default=0)
@@ -39,7 +39,7 @@ class bankaccount(models.Model):
             value += i.price
         return value
 class catch(models.Model):
-    bankaccount = models.ForeignKey(bankaccount)
+    bankaccount = models.ForeignKey(bankaccount,on_delete=models.CASCADE)
     date = models.DateTimeField()#auto_now=True
     price = models.FloatField()
     year = models.IntegerField(default=0)
@@ -73,7 +73,7 @@ class Message(models.Model):
             SendMessage(u.telegramid,self.Text)
             
 class Loan (models.Model):
-    user =  models.ForeignKey(User) 
+    user =  models.ForeignKey(User,on_delete=models.CASCADE)
     loan_amount=   models.FloatField()
     parts=  models.IntegerField(default=10) 
     part_amount=models.FloatField()
@@ -105,7 +105,7 @@ class Loan_queue(models.Model):
         (0, 'Started'),
         (1, 'Done'),
     )
-    bankaccount = models.ForeignKey(bankaccount)
+    bankaccount = models.ForeignKey(bankaccount,on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=Status_choice,default=-1)
     amount = models.IntegerField()
@@ -166,7 +166,7 @@ class new_loan(models.Model):
         except:
             return False
 class new_loan_pay(models.Model):
-    new_loan = models.ForeignKey(new_loan)
+    new_loan = models.ForeignKey(new_loan,on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     description = models.CharField(default="",max_length=20)
     def save(self,*args , **kwargs):
