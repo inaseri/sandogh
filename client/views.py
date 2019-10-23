@@ -164,7 +164,7 @@ def SingUp(request):
             validate_email(context['request']['email'])
             if User.objects.filter(email=context['request']['email']).exists():
                 context['email_confilict']=1
-        except ValidationError:
+        except:
             context['email']=1
             context['error']=1
         #password Checking
