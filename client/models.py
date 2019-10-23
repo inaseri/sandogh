@@ -40,7 +40,7 @@ class bankaccount(models.Model):
         return value
 class catch(models.Model):
     bankaccount = models.ForeignKey(bankaccount,on_delete=models.CASCADE)
-    date = models.DateTimeField()#auto_now=True
+    date = models.DateTimeField(auto_now=True)#auto_now=True
     price = models.FloatField()
     year = models.IntegerField(default=0)
     added_with_bank = models.BooleanField(default=False)
