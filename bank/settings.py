@@ -83,12 +83,15 @@ WSGI_APPLICATION = 'bank.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sandogh_zainab',
-        'USER': 'sandogh_zainab',
-        'PASSWORD': '22bahman2010',
+        'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'sandogh_zainab',
+        # 'USER': 'sandogh_zainab',
+        # 'PASSWORD': '22bahman2010',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        # 'PORT': '5432',
+        'NAME': 'sandoghzainabvps_qwds',
+        'USER': 'sandoghzainabvps_lksjdn',
+        'PASSWORD': 'twwS,D#)%$H?',
     }
 }
 
