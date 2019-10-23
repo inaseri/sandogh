@@ -86,7 +86,7 @@ def Login(request):
             validate_email(username)
             if User.objects.filter(email=username).exists():
                 username=User.objects.get(email=username).username
-        except forms.ValidationError:
+        except:
             pass
         #check user can authenticate
         try:
