@@ -1,0 +1,70 @@
+{%  extends "base.html" %}
+{% load static %}
+{% load pwa %}
+{% load api_tags %}
+{% block title %}صف درخواست وام ها{% endblock %}
+{% block css %}{% endblock %}
+{% block js %}{% endblock %}
+
+
+{% block body %}
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark default-color">
+            <a class="navbar-brand" onclick="window.history.back()" style="color: white;">
+                <img src="{% static 'img/iconfinder-icon.svg' %}" style="height: 35px; width: 35px;">
+                <strong style="font-family: bnazanin; margin-left: -10px;">برگشت</strong>
+            </a>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <a class="btn aqua-gradient" href="{% url 'loan_queue_add' %}">درخواست وام</a>
+            </div>
+            <div class="col-md-5">
+                <h3 style="font-family: bnazanin; text-align: right;">صف درخواست وام ها</h3>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <hr style="width: 100%;">
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row" style="margin-top: 3%;">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="table" class="table-editable">
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th>تاریخ</th>
+                                        <th>وضعیت</th>
+                                        <th>نام</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                            {% for val in loanqueue %}
+                                <tr>
+                                    <td>{{ val.date|jdate:"%Y/%m/%d %H:%M" }}</td>
+                                    <td>{% if val.status == -1 %}درحال پردازش{% elif val.status == 0 %}وام تعلق گرفته{% else %}پایان یافته{% endif %}</td>
+                                    <td>{{ val.bankaccount.user.get_full_name }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="col-md-2"></div>
+    </div>
+{% endblock %}
+

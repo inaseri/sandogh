@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'client',
+    'django.contrib.humanize',
+    'pwa',
 ]
 AUTH_USER_MODEL = "client.User"
 
@@ -155,3 +157,28 @@ THUMBNAIL_UPLOAD_PATH='images/th/'
 THUMBNAIL_STORAGE='images/'
 
 telegapiKey="312010028:AAHyIG-OlQz1Eks7TDST-1J44o1dHgbfYBg"
+
+PWA_APP_NAME = 'صندوق حضرت زینب (س)'
+PWA_APP_DESCRIPTION = "مدیریت هزینه ها بدون هزینه"
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/',
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+{
+'src': '/static/img/ic-icone.jpg',
+'sizes': '160x160',
+}
+]
+PWA_APP_SPLASH_SCREEN = [
+{
+# 'src': '/static/my-app-icone.png',
+# 'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+}
+]
+PWA_APP_DIR = 'rtl'
+PWA_APP_LANG = 'en-US'
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')

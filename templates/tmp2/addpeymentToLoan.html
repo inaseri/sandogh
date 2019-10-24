@@ -1,0 +1,77 @@
+{%  extends "base.html" %}
+{% load static %}
+{% load pwa %}
+{% load static from staticfiles %}
+{% block title %}ثبت پرداخت{% endblock %}
+{% block css %}{% endblock %}
+
+{% block js %}
+<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+<script src="{% static 'vendors/parsleyjs/dist/i18n/fa.js' %}"></script>
+<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/moment-jalaali.js" %}"></script>
+<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/daterangepicker-fa.js" %}"></script>
+<script>
+    $('.jalali-datepicker').daterangepicker({
+        clearLabel: 'Clear',
+        autoApply: true,
+        opens: 'left',
+        singleDatePicker: true,
+        showDropdowns: true,
+        jalaali: true,
+        language: 'fa'
+    }).on('apply.daterangepicker', function () {
+        $('.tooltip').hide();
+        $('.date-select').text($(this).val());
+    });
+</script>
+{% endblock %}
+
+
+{% block body %}
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark default-color">
+            <a class="navbar-brand" onclick="window.history.back()" style="color: white;">
+                <img src="{% static 'img/iconfinder-icon.svg' %}" style="height: 35px; width: 35px;">
+                <strong style="font-family: bnazanin; margin-left: -10px;">برگشت</strong>
+            </a>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <form method="post">
+            {% csrf_token %}
+            <div style="margin-top: 15px;" class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <label class="form-control" style="text-align:left;direction: ltr;">
+                        {{loan.loan_queue}}-{{loan.loan_queue.id}}
+                    </label>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div style="margin-top: 15px;" class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input class="form-control jalali-datepicker" type="text" name="date" value="{{fadate}}">
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div style="margin-top: 15px;" class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input class="form-control" type="text" name="description" value="" placeholder="توضیحات">
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div style="margin-top: 15px;" class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <button class="btn aqua-gradient">ثبت</button>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+

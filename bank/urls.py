@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^telegramapi', data),
     url(r'^', include('client.urls')),
+    url('', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
 ]

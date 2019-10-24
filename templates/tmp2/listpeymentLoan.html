@@ -1,0 +1,71 @@
+{%  extends "base.html" %}
+{% load static %}
+{% load api_tags %}
+{% load pwa %}
+{% block title %}ریز حساب{% endblock %}
+{% block css %}{% endblock %}
+{% block js %}{% endblock %}
+
+
+{% block body %}
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark default-color">
+            <a class="navbar-brand" onclick="window.history.back()" style="color: white;">
+                <img src="{% static 'img/iconfinder-icon.svg' %}" style="height: 35px; width: 35px;">
+                <strong style="font-family: bnazanin; margin-left: -10px;">برگشت</strong>
+            </a>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <a class="btn aqua-gradient" href="{% url "add_loan_pay" loan.loan_queue.id %}">افزودن پرداخت</a>
+            </div>
+            <div class="col-md-5">
+                <h3 style="text-align: right; font-family: bnazanin;"> اطلاعات حساب <small style="text-align: right; font-family: bnazanin;"> شماره وام: {{loan.loan_queue.id}}</small></h3>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <hr style="width: 100%;">
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        </div>
+        <div class="row" style="margin-top: 3%;">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="table" class="table-editable">
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th>توضیح</th>
+                                        <th>تاریخ</th>
+                                        <th>#</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                                {% for value in nlp %}
+                                    <tr>
+                                        <td>{{value.description}}</td>
+                                        <td>{{value.date|jdate:"%Y/%m/%d %H:%M"}}</td>
+                                        <td>{{forloop.counter}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% endblock %}
+

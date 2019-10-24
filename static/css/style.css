@@ -1,0 +1,45 @@
+label {
+    font-family: bnazanin;
+    font-size: 20px;
+}
+
+button {
+    font-family: bnazanin;
+    font-size: 20px;
+    /*width: 100%;*/
+    margin-top: 5px;
+}
+
+a {
+    font-family: bnazanin;
+}
+
+.card-title {
+    font-family: bnazanin;
+    font-size: 30px;
+    text-align: right;
+}
+
+.card-body {
+    font-family: bnazanin;
+    font-size: 15px;
+    text-align: right;
+}
+
+
+@media only screen and (max-width: 998px) {
+    .hideAll {
+        display: none;
+    }
+}
+@media only screen and (min-width: 998px) {
+    .showAll {
+        display: none;
+    }
+}
+
+@font-face {
+  font-family: 'bnazanin';
+  src: local('Bnazanin'),
+       url('../font/BNazanin.ttf')format("truetype");
+}

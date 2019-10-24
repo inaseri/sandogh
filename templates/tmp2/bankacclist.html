@@ -1,0 +1,78 @@
+{%  extends "base.html" %}
+{% load static %}
+{% load pwa %}
+{% load api_tags %}
+{% block title %}اطلاعات حساب{% endblock %}
+{% block css %}{% endblock %}
+{% block js %}{% endblock %}
+
+
+{% block body %}
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark default-color">
+            <a class="navbar-brand" onclick="window.history.back()" style="color: white;">
+                <img src="{% static 'img/iconfinder-icon.svg' %}" style="height: 35px; width: 35px;">
+                <strong style="font-family: bnazanin; margin-left: -10px;">برگشت</strong>
+            </a>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <h3 style="font-family: bnazanin; text-align: right;">اطلاعات حساب</h3>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <hr style="width: 100%;">
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row" style="margin-top: 3%;">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="table" class="table-editable">
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">مشاهده جزییات</th>
+                                        <th class="text-center">تاریخ افتتاح حساب</th>
+                                        <th class="text-center">موجودی</th>
+                                        <th class="text-center">تعداد واریز ها</th>
+                                        <th class="text-center">شماره حساب</th>
+                                        <th class="text-center">#</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                                {% for value in bnk %}
+                                    {% load humanize %}
+                                    <tr>
+                                        <td class="pt-3-half">
+                                            <span class="table-remove">
+                                                <a class="btn btn-danger btn-rounded btn-sm my-0" href="{% url "bankacc" value.id %}" name="change">مشاهده</a>
+                                            </span>
+                                        </td>
+                                        <td>{{value.createTime|jdate:"%Y/%m/%d %H:%M"}}</td>
+                                        <td>{{value.Inventory|intcomma:False}}</td>
+                                        <td>{{value.count}}</td>
+                                        <td>{{value.name}}</td>
+                                        <td>{{forloop.counter}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,185 @@
+{%  extends "base.html" %}
+{% load static %}
+{% load pwa %}
+{% block title %}داشبورد{% endblock %}
+{% block css %}{% endblock %}
+{% block body %}
+
+   <nav class="navbar navbar-expand-lg navbar-dark default-color">
+        <a class="navbar-brand" href="#"><strong style="text-align: right; font-size: 30px;">صندوق</strong></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'bankaccs' %}">حساب ها <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'loan' %}">وام ها</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'changepassword' %}">تغییر گذر واژه</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">خروج</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+
+    <div id="mainRowPhones">
+        <div class="row">
+            <div class="col-6 col-sm-6" style="margin-top: 25px;">
+                <div class="card card-cascade narrower">
+                    <!-- Card image -->
+                    <div class="view view-cascade overlay">
+                        <img class="card-img-top" src="{% static 'img/ic-loan.svg' %}" alt="Card image cap">
+                    </div>
+                    <!-- Card content -->
+                    <div class="card-body card-body-cascade">
+                        <!-- Title -->
+                        <h4 class="card-title">وام های صندوق</h4>
+                        <p class="card-text">وام های درجریان صندوق</p>
+                        <!-- Label -->
+                        <h3 class="pink-text pb-2 pt-1">{{ loan.count }}</h3>
+                        <a class="btn btn-unique" style="width: 100%; margin-left: auto;" href="{% url 'bankaccs' %}">وام های من</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6" style="margin-top: 25px;">
+                <div class="card card-cascade narrower">
+                    <!-- Card image -->
+                    <div class="view view-cascade overlay">
+                        <img class="card-img-top" src="{% static 'img/ic-banks.svg' %}" alt="Card image cap">
+                    </div>
+                    <!-- Card content -->
+                    <div class="card-body card-body-cascade">
+                        <!-- Title -->
+                        <h4 class="card-title">تعداد کل حساب ها</h4>
+                        <p class="card-text">تمامی حساب های صندوق</p>
+                        <!-- Label -->
+                        <h3 class="pink-text pb-2 pt-1">{{ bankaccounts }}</h3>
+                        <a class="btn btn-unique" style="width: 100%; margin-left: auto;" href="{% url 'bankaccs' %}" >حساب من</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-sm-6" style="margin-top: 25px;">
+                <div class="card card-cascade narrower">
+                    <!-- Card image -->
+                    <div class="view view-cascade overlay">
+                        <img class="card-img-top" src="{% static 'img/ic-queue.svg' %}" alt="Card image cap">
+                    </div>
+                    <!-- Card content -->
+                    <div class="card-body card-body-cascade">
+                        <!-- Title -->
+                        <h4 class="card-title"> افراد در صف وام</h4>
+                        <p class="card-text">تعداد افرادی که در انتضار دریافت وام از صندوق هستند</p>
+                        <!-- Label -->
+                        <h3 class="pink-text pb-2 pt-1">{{ loan.queue }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-sm-6" style="margin-top: 25px;">
+                <div class="card card-cascade narrower">
+                    <!-- Card image -->
+                    <div class="view view-cascade overlay">
+                        <img class="card-img-top" src="{% static 'img/ic-people.svg' %}" alt="Card image cap">
+                    </div>
+                    <!-- Card content -->
+                    <div class="card-body card-body-cascade">
+                        <!-- Title -->
+                        <h4 class="card-title"> اعضا</h4>
+                        <p class="card-text"> تعدد تمامی افرادی که از اعضای صندوق هستند</p>
+                        <!-- Label -->
+                        <h3 class="pink-text pb-2 pt-1">{{ useraccounts }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 30px;"></div>
+
+    </div>
+
+    <div id="mainRowCamputer">
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-md-2"></div>
+            <div style="margin-right: 10px;" class="col-md-2 card card-cascade narrower">
+                <!-- Card image -->
+                <div class="view view-cascade overlay">
+                    <img class="card-img-top" src="{% static 'img/ic-loan.svg' %}" alt="Card image cap">
+                </div>
+                <hr>
+                <!-- Card content -->
+                <div class="card-body card-body-cascade">
+                    <!-- Title -->
+                    <h4 class="card-title">وام های جاری</h4>
+                    <p class="card-text">وام هایی که در حال حاضر در صندوق در جریان هستند</p>
+                    <!-- Label -->
+                    <h3 class="pink-text pb-2 pt-1">{{ loan.count }}</h3>
+                </div>
+            </div>
+            <div style="margin-right: 10px;" class="col-md-2 card card-cascade narrower">
+                <!-- Card image -->
+                <div class="view view-cascade overlay">
+                    <img class="card-img-top" src="{% static 'img/ic-queue.svg' %}" alt="Card image cap">
+                </div>
+                <hr>
+                <!-- Card content -->
+                <div class="card-body card-body-cascade">
+                    <!-- Title -->
+                    <h4 class="card-title"> صف وام</h4>
+                    <p class="card-text">تعداد افرادی که در انتضار دریافت وام از صندوق هستند</p>
+                    <!-- Label -->
+                    <h3 class="pink-text pb-2 pt-1">{{ loan.queue }}</h3>
+                </div>
+            </div>
+            <div style="margin-right: 10px;" class="col-md-2 card card-cascade narrower">
+                <!-- Card image -->
+                <div class="view view-cascade overlay">
+                    <img class="card-img-top" src="{% static 'img/ic-banks.svg' %}" alt="Card image cap">
+                </div>
+                <hr>
+                <!-- Card content -->
+                <div class="card-body card-body-cascade">
+                    <!-- Title -->
+                    <h4 class="card-title">تعداد حساب ها</h4>
+                    <p class="card-text">تمامی حساب های موجود در صندوق</p>
+                    <!-- Label -->
+                    <h3 class="pink-text pb-2 pt-1">{{ bankaccounts }}</h3>
+                </div>
+            </div>
+            <div style="margin-right: 10px;" class="col-md-2 card card-cascade narrower">
+                <!-- Card image -->
+                <div class="view view-cascade overlay">
+                    <img class="card-img-top" src="{% static 'img/ic-people.svg' %}" alt="Card image cap">
+                </div>
+                <hr>
+                <!-- Card content -->
+                <div class="card-body card-body-cascade">
+                    <!-- Title -->
+                    <h4 class="card-title"> اعضا</h4>
+                    <p class="card-text">تعدد تمامی اعضای صندوق که </p>
+                    <!-- Label -->
+                    <h3 class="pink-text pb-2 pt-1">{{ useraccounts }}</h3>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+    </div>
+
+    {% block js %}
+
+    {% endblock %}
+
+{% endblock %}
+

@@ -33,7 +33,7 @@ def index(request):
     context['loan']['queue'] = Loan_queue.objects.filter(status=-1).count()
     context['bankaccounts'] = len(bankaccount.objects.all())
     context['useraccounts'] = len(User.objects.all())
-    return render(request,"tmpl1/index.html",context)
+    return render(request,'tmp2/dashboard.html', context)
 @login_required
 def bankaccs(request):
     context={}
@@ -51,7 +51,7 @@ def bankaccs(request):
     #     return JsonResponse({})
     # else:
     #     return HttpResponseRedirect(reverse("bankacc", args=[bnk[0].id]))
-    return render(request, "tmpl1/bankacclist.html", context)
+    return render(request,'tmp2/bankacclist.html', context)
 @login_required
 def bankacc(request,id):
     context={}
@@ -66,7 +66,7 @@ def bankacc(request,id):
             tmp['price'] = i.price
             tmp['bank']=i.added_with_bank
             context['catch'].append(tmp)
-        return render(request,"tmpl1/listpeyments.html",context)
+        return render(request,'tmp2/listpyements.html',context)
     except:
         return JsonResponse({"error":"Perimition denided"})
 def Login(request):
@@ -103,7 +103,7 @@ def Login(request):
         else:
             # the authentication system was unable to verify the username and password
             print("The username and password were incorrect.")
-    return render(request,"tmpl1/accounts/login.html",context)
+    return render(request, 'tmp2/login.html',context)
 
 def recovery(request):
     if request.user.is_authenticated:
@@ -323,7 +323,7 @@ def changepassword(request):
                 context['error'] = "گذرواژه صحیح نیست."
         else:
             context['error']="گذرواژه صحیح نیست."
-    return render(request, "tmpl1/accounts/changepassword.html", context)
+    return render(request,'tmp2/changepassword.html',context)
 
 @login_required
 def ViewQueue(request):
@@ -333,7 +333,7 @@ def ViewQueue(request):
         context['loanqueue'] = ln
     else:
         raise Http404("access denided")
-    return render(request, "tmpl1/loanqueue.html", context)
+    return render(request,'tmp2/loanqueue.html',context)
 
 @login_required
 def AddQueue(request):
@@ -357,7 +357,7 @@ def AddQueue(request):
                 context['success'] = True
     else:
         raise Http404("access denided")
-    return render(request, "tmpl1/newqueue.html", context)
+    return render(request, "tmp2/newqueue.html", context)
 
 @login_required
 def loan_new(request):
@@ -381,7 +381,7 @@ def loan_new(request):
                 context['success'] = True
     else:
         raise Http404("access denided")
-    return render(request, "tmpl1/newloan.html", context)
+    return render(request,'tmp2/newloan.html',context)
 
 @login_required
 def loan(request):
@@ -397,7 +397,7 @@ def loan(request):
     except:
         pass
     print(context['qloan'])
-    return render(request, "tmpl1/loan.html", context)
+    return render(request, 'tmp2/loan.html', context)
 @login_required
 def loan_admin(request):
     context = {}
@@ -406,7 +406,7 @@ def loan_admin(request):
 #        print(context['loan'][0].loan_queue)
     else:
         raise Http404("access denided")
-    return render(request, "tmpl1/loan_admin.html", context)
+    return render(request, 'tmp2/loan_admin.html', context)
 
 @login_required
 def view_loan_pay(request,id):
@@ -418,7 +418,7 @@ def view_loan_pay(request,id):
     else:
         if context['loan'].loan_queue.bankaccount.user is not request.user:
             raise Http404("access denided")
-    return render(request, "tmpl1/listpeymentLoan.html", context)
+    return render(request,'tmp2/listpeymentLoan.html',context)
 
 @login_required
 def add_loan_pay(request,id):
@@ -442,7 +442,7 @@ def add_loan_pay(request,id):
             return HttpResponseRedirect(request.GET.get("next", "/loan/view/" + id + "/"))
     else:
         raise Http404("access denided")
-    return render(request, "tmpl1/addpeymentToLoan.html", context)
+    return render(request, 'tmp2/addpeymentToLoan.html', context)
 
 @login_required
 def active_telegram(request,key):
