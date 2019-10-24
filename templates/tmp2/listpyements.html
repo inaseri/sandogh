@@ -52,7 +52,7 @@
                                 {% for value in catch %}
                                     {% load humanize %}
                                     <tr>
-                                        <td>{{value.price|intcomma:False}}</td>
+                                        <td>{{value.price|rial}}</td>
                                         <td>{%if value.bank%}سود بانکی{%else%}واریز {%endif%}</td>
                                         <td>{{value.date_added|jdate:"%Y/%m/%d %H:%M"}}</td>
                                         <td>{{forloop.counter}}</td>
