@@ -55,11 +55,11 @@
                     <!-- Card content -->
                     <div class="card-body card-body-cascade">
                         <!-- Title -->
-                        <h4 class="card-title">وام های صندوق</h4>
+                        <h4 class="card-title" style="font-size: 18px;">وام های صندوق</h4>
                         <p class="card-text">وام های درجریان صندوق</p>
                         <!-- Label -->
                         <h3 class="pink-text pb-2 pt-1">{{ loan.count }}</h3>
-                        <a class="btn btn-unique" style="width: 100%; margin-left: auto;" href="{% url 'bankaccs' %}">وام های من</a>
+                        <a class="btn btn-unique" style="width: 100%; margin-left: auto;" href="{% url 'loan' %}">وام های من</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     <!-- Card content -->
                     <div class="card-body card-body-cascade">
                         <!-- Title -->
-                        <h4 class="card-title">تعداد کل حساب ها</h4>
+                        <h4 class="card-title" style="font-size: 18px;">تعداد کل حساب ها</h4>
                         <p class="card-text">تمامی حساب های صندوق</p>
                         <!-- Label -->
                         <h3 class="pink-text pb-2 pt-1">{{ bankaccounts }}</h3>
@@ -91,7 +91,7 @@
                     <!-- Card content -->
                     <div class="card-body card-body-cascade">
                         <!-- Title -->
-                        <h4 class="card-title"> افراد در صف وام</h4>
+                        <h4 class="card-title" style="font-size: 18px;"> افراد در صف وام</h4>
                         <p class="card-text">تعداد افرادی که در انتضار دریافت وام از صندوق هستند</p>
                         <!-- Label -->
                         <h3 class="pink-text pb-2 pt-1">{{ loan.queue }}</h3>
@@ -107,7 +107,7 @@
                     <!-- Card content -->
                     <div class="card-body card-body-cascade">
                         <!-- Title -->
-                        <h4 class="card-title"> اعضا</h4>
+                        <h4 class="card-title" style="font-size: 18px;"> اعضا</h4>
                         <p class="card-text"> تعدد تمامی افرادی که از اعضای صندوق هستند</p>
                         <!-- Label -->
                         <h3 class="pink-text pb-2 pt-1">{{ useraccounts }}</h3>
