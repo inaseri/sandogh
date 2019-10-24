@@ -19,6 +19,17 @@
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'loan' %}">وام ها</a>
                 </li>
+                {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'loan_queue_add' %}">افزودن صف وام <span class="sr-only"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'loan_new' %}">افزودن وام جدید <span class="sr-only"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'loan_admin' %}">مدیریت وام ها <span class="sr-only"></span></a>
+                    </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav nav-flex-icons">
                 <li class="nav-item">
