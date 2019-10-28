@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^activate/telegram/(?P<key>[\w-]+)/$', views.active_telegram),
     url(r'^resetpassword/telegram/(?P<key>[\w-]+)/$', views.reset_password_telegram),
     url(r'^loan/$', views.loan, name="loan"),
+    url(r'^lows/$', views.aboutUs, name="lows"),
 #    url(r'^operator/(?P<page>[0-9a-z\.-]+)', views.operator,name='operator',),
 ]

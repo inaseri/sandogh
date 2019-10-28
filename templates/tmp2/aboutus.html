@@ -1,0 +1,129 @@
+{%  extends "base.html" %}
+{% load static %}
+{% load pwa %}
+{% block title %}داشبورد{% endblock %}
+{% block css %}{% endblock %}
+{% block body %}
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark default-color">
+            <a class="navbar-brand" onclick="window.history.back()" style="color: white;">
+                <img src="{% static 'img/iconfinder-icon.svg' %}" style="height: 35px; width: 35px;">
+                <strong style="font-family: bnazanin; margin-left: -10px;">برگشت</strong>
+            </a>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 style="font-family: bnazanin; text-align: right; margin-top: 25px; margin-right: 10px;">درباره ما</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr style="width: 100%;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4 style="font-family: bnazanin; text-align: center;">بسمه تعالی</h4>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4 style="font-family: bnazanin; text-align: right;">آیین نامه اجرایی صندوق قرض الحسنه کارکنان شبکه فرهنگی رافد</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4 style="font-family: bnazanin; text-align: right;">:موضوع صندوق</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="font-family: bnazanin; text-align: right;">افتتاح حساب قرض الحسنه پس انداز طبق ضوابط  اعطای وام قرض الحسنه برای رفع نیازهای مالی کارمندان شبکه رافد</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h4 style="font-family: bnazanin; text-align: right;">: اعضای صندوق</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="font-family: bnazanin; text-align: right;">.اعضای این صندوق از بین کارمندان فعلی و سابق شبکه رافد و با تایید هیئت رئیسه پذیرفته میشوند</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="font-family: bnazanin; text-align: right;">.حق عضویت برای سال 98 به ازای هر سهم در ماه حداقل مبلغ 100,000 تومان در نظر گرفته شده است</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="font-family: bnazanin; text-align: right;">.هر عضو میتواند بیش از یک سهم درخواست کند</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="font-family: bnazanin; text-align: right;">.حق عضویت فرد به صورت امانت نزد صندوق باقی خواهد ماند و در صورت انصراف پس از بازه مقرر شده به وی بازگردانده خواهد شد</h5>
+            </div>
+        </div>
+
+
+    </div>
+    <footer class="page-footer font-small default-color pt-4 fixed-bottom">
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+                <hr class="clearfix w-100 d-md-none pb-3">
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase" style="font-family: bnazanin;">توسعه دهندگان</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://t.me/Mheftekhari">تلگرام ( محمد حسین افتخاری زاده )</a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/Iman_Naseri">تلگرام ( ایمان ناصری )</a>
+                        </li>
+                        <li>
+                            <a>mh.eftekhari@gmail.com</a>
+                        </li>
+                        <li>
+                            <a>inaseri.20@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+                <div class="col-md-3 mb-md-0 mb-3">
+                        <h5 class="text-uppercase" style="font-family: bnazanin;">ارتباط با ما</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://t.me/abbas2044">تلگرام ادمین</a>
+                            </li>
+                            <li>
+                                <a href="https://t.me/sandogh_hazrat_zainab_bot">رباط صندوق</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'lows' %}">قوانین صندوق</a>
+                            </li>
+                        </ul>
+                    </div>
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2018 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/"> Mohammad Hossein Eftekhair, Iman Naseri</a>
+        </div>
+    </footer>
+    {% block js %}{% endblock %}
+{% endblock %}
+

@@ -15,6 +15,7 @@ from django.http import Http404
 import jdatetime
 import uuid
 from .telegramapi import SendMessage
+from django.contrib import messages
 # Create your views here.
 def recaptcha(request):
     recaptcha_response=request.POST.get('g-recaptcha-response','')
@@ -317,12 +318,16 @@ def changepassword(request):
                     user.set_password(request.POST["newpassword"])
                     user.save()
                     context['result'] = "گذر واژه با موفقیت تغییر کرد."
+                    messages.error(request, 'گذر واژه با موفقیت تغییر کرد')
                 else:
                     context['error'] = "گذر واژه ی جدید آسان می باشد."
+                    messages.error(request, 'گذر واژه ی جدید آسان می باشد')
             else:
                 context['error'] = "گذرواژه صحیح نیست."
+                messages.error(request, 'گذرواژه صحیح نیست')
         else:
             context['error']="گذرواژه صحیح نیست."
+            messages.error(request, 'گذرواژه صحیح نیست')
     return render(request,'tmp2/changepassword.html',context)
 
 @login_required
@@ -471,3 +476,6 @@ def reset_password_telegram(request,key):
     except:
         pass
     return HttpResponseRedirect("/")
+
+def aboutUs(request):
+    return render(request, 'tmp2/aboutus.html')

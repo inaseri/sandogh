@@ -3,27 +3,89 @@
 {% load pwa %}
 {% load static from staticfiles %}
 {% block title %}درخواست وام{% endblock %}
-{% block css %}{% endblock %}
+
+{% block css %}
+  <link href="{% static 'css/daterangepicker.css' %}" rel="stylesheet" type="text/css" media="all" />
+  <link href="{% static 'css/datepicker-theme.css' %}" rel="stylesheet" type="text/css" media="all"  />
+{% endblock %}
 
 {% block js %}
-<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
-<script src="{% static 'vendors/parsleyjs/dist/i18n/fa.js' %}"></script>
-<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/moment-jalaali.js" %}"></script>
-<script type="text/javascript" src="{% static "vendors/bootstrap-daterangepicker-persian/js/daterangepicker-fa.js" %}"></script>
-<script>
-    $('.jalali-datepicker').daterangepicker({
-        clearLabel: 'Clear',
-        autoApply: true,
-        opens: 'left',
-        singleDatePicker: true,
-        showDropdowns: true,
-        jalaali: true,
-        language: 'fa'
-    }).on('apply.daterangepicker', function () {
-        $('.tooltip').hide();
-        $('.date-select').text($(this).val());
+  <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/moment.min.js' %}" ></script>
+  <script src="{% static 'js/moment-jalaali.js' %}"></script>
+  <script src="{% static 'js/daterangepicker-fa-ex.js' %}"></script>
+  <script>
+        $(document).ready(function () {
+        var night;
+        var isRtl = true;
+        var dateFormat = isRtl ? 'jYYYY/jMM/jDD' : 'YYYY/MM/DD';
+        var dateFrom = false ? moment("") : undefined;
+        var dateTo = false ? moment("") : undefined;
+        var $dateRanger = $("#dateRangePicker");
+
+        $dateRanger.daterangepicker({
+            clearLabel: 'Clear',
+            autoUpdateInput: !!(dateFrom && dateTo),
+            minDate: moment(),
+            autoApply: true,
+            opens: isRtl ? 'left' : 'right',
+            locale: {
+                separator: ' - ',
+                format: dateFormat
+            },
+            startDate: dateFrom,
+            endDate: dateTo,
+            jalaali: isRtl,
+            showDropdowns: true
+        }).on('apply.daterangepicker', function (ev, picker) {
+            night = picker.endDate.diff(picker.startDate, 'days');
+            if (night > 0) {
+                $(this).val(picker.startDate.format(dateFormat));
+                $('#dateRangePickerEnd').val(picker.endDate.format(dateFormat));
+            } else {
+                $(this).val('')
+            }
+        });
+
+
+        $('.ga-datepicker').daterangepicker({
+            clearLabel: 'Clear',
+            // autoUpdateInput: !!(dateFrom && dateTo),
+            //minDate: moment(),
+            autoApply: true,
+            opens: 'right',
+            singleDatePicker: true,
+            showDropdowns: true,
+            language: 'en'
+        }).on('apply.daterangepicker', function () {
+            $('.tooltip').hide();
+            $('.date-select').text($(this).val());
+        });
+
+        $('.jalali-datepicker').daterangepicker({
+            clearLabel: 'Clear',
+            autoApply: true,
+            opens: 'left',
+            singleDatePicker: true,
+            showDropdowns: true,
+            jalaali: true,
+            language: 'fa'
+        }).on('apply.daterangepicker', function () {
+            $('.tooltip').hide();
+            $('.date-select').text($(this).val());
+        });
+
+        $(document).on('mouseover', '.daterangepicker .calendar td', function () {
+            var gagDate = $(this).attr('data-original-title');
+            $('.date-hover').text('');
+            $('.date-hover').text(gagDate);
+
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
     });
-</script>
+  </script>
+  <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
 {% endblock %}
 
 
@@ -36,7 +98,6 @@
             </a>
         </nav>
     </header>
-
     <div class="container-fluid">
         <form method="post">
             {% csrf_token %}
@@ -75,6 +136,50 @@
             </div>
         </form>
     </div>
+    <footer class="page-footer font-small default-color pt-4 fixed-bottom">
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+                <hr class="clearfix w-100 d-md-none pb-3">
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase" style="font-family: bnazanin;">توسعه دهندگان</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://t.me/Mheftekhari">تلگرام ( محمد حسین افتخاری زاده )</a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/Iman_Naseri">تلگرام ( ایمان ناصری )</a>
+                        </li>
+                        <li>
+                            <a>mh.eftekhari@gmail.com</a>
+                        </li>
+                        <li>
+                            <a>inaseri.20@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+                <div class="col-md-3 mb-md-0 mb-3">
+                        <h5 class="text-uppercase" style="font-family: bnazanin;">ارتباط با ما</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://t.me/abbas2044">تلگرام ادمین</a>
+                            </li>
+                            <li>
+                                <a href="https://t.me/sandogh_hazrat_zainab_bot">رباط صندوق</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'lows' %}">قوانین صندوق</a>
+                            </li>
+                        </ul>
+                    </div>
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2018 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/"> Mohammad Hossein Eftekhair, Iman Naseri</a>
+        </div>
+    </footer>
 {% endblock %}
 
 
