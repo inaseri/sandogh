@@ -35,9 +35,15 @@ p {
     .hideAll {
         display: none;
     }
+    .showCampFooter {
+        display: none;
+    }
 }
 @media only screen and (min-width: 998px) {
     .showAll {
+        display: none;
+    }
+    .showPhoneFooter {
         display: none;
     }
 }
