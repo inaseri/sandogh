@@ -35,8 +35,8 @@
   <script type="text/javascript">
     document.getElementById("mainRowCamputer").classList.toggle("hideAll");
     document.getElementById("mainRowPhones").classList.toggle("showAll");
-    document.getElementById("footerCamputer").classList.toggle("showCampFooter");
-    document.getElementById("footerPhone").classList.toggle("showPhoneFooter");
+    var headerHeight = document.getElementById('header').offsetWidth;
+    var footerHeight = document.getElementById('footer').offsetWidth;
   </script>
   {%  block js %}{% endblock %}
 </body>
