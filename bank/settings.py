@@ -77,25 +77,25 @@ WSGI_APPLICATION = 'bank.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'mydatabase',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'sandogh_zainab',
-        # 'USER': 'sandogh_zainab',
-        # 'PASSWORD': '22bahman2010',
-        'HOST': '127.0.0.1',
-        # 'PORT': '5432',
-        'NAME': 'sandoghzainabvps_qwds',
-        'USER': 'sandoghzainabvps_lksjdn',
-        'PASSWORD': 'twwS,D#)%$H?',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         # 'NAME': 'sandogh_zainab',
+#         # 'USER': 'sandogh_zainab',
+#         # 'PASSWORD': '22bahman2010',
+#         'HOST': '127.0.0.1',
+#         # 'PORT': '5432',
+#         'NAME': 'sandoghzainabvps_qwds',
+#         'USER': 'sandoghzainabvps_lksjdn',
+#         'PASSWORD': 'twwS,D#)%$H?',
+#     }
+# }
 
 
 # Password validation
