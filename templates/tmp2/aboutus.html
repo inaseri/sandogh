@@ -5,7 +5,7 @@
 {% block css %}{% endblock %}
 {% block body %}
 
-    <header>
+    <header id="header">
         <nav class="navbar navbar-expand-lg navbar-dark default-color">
             <a class="navbar-brand" onclick="window.history.back()" style="color: white;">
                 <img src="{% static 'img/iconfinder-icon.svg' %}" style="height: 35px; width: 35px;">
@@ -13,7 +13,7 @@
             </a>
         </nav>
     </header>
-    <div class="container-fluid" style="min-height: 100vh;">
+    <div class="container-fluid" id="content">
         <div class="row">
             <div class="col-md-12">
                 <h2 style="font-family: bnazanin; text-align: right; margin-top: 25px; margin-right: 10px;">درباره ما</h2>
@@ -77,10 +77,8 @@
                 <h5 style="font-family: bnazanin; text-align: right;">.حق عضویت فرد به صورت امانت نزد صندوق باقی خواهد ماند و در صورت انصراف پس از بازه مقرر شده به وی بازگردانده خواهد شد</h5>
             </div>
         </div>
-
-
     </div>
-    <footer class="page-footer font-small default-color pt-4">
+    <footer class="page-footer font-small default-color pt-4" id="footer">
         <div class="container-fluid text-center text-md-left">
             <div class="row">
                 <div class="col-md-2 mt-md-0 mt-3"></div>
@@ -124,6 +122,14 @@
             <a href="https://mdbootstrap.com/education/bootstrap/"> Mohammad Hossein Eftekhair, Iman Naseri</a>
         </div>
     </footer>
-    {% block js %}{% endblock %}
+
+{% block js %}
+    <script>
+        var headerHeight = document.getElementById('header').offsetHeight;
+        var footerHeight = document.getElementById('footer').offsetHeight;
+        var contentHeight = headerHeight + footerHeight;
+        $('#content').css({ 'min-height': 'calc(100vh - ' + contentHeight+ 'px)' });
+    </script>
+{% endblock %}
 {% endblock %}
 

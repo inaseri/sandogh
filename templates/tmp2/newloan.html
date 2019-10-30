@@ -9,6 +9,99 @@
   <link href="{% static 'css/datepicker-theme.css' %}" rel="stylesheet" type="text/css" media="all"  />
 {% endblock %}
 
+
+{% block body %}
+    <header id="header">
+        <nav class="navbar navbar-expand-lg navbar-dark default-color">
+            <a class="navbar-brand" onclick="window.history.back()" style="color: white;">
+                <img src="{% static 'img/iconfinder-icon.svg' %}" style="height: 35px; width: 35px;">
+                <strong style="font-family: bnazanin; margin-left: -10px;">برگشت</strong>
+            </a>
+        </nav>
+    </header>
+    <div class="container-fluid" id="content">
+        <form method="post">
+            {% csrf_token %}
+            <div style="margin-top: 15px;" class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <select class="form-control" required="required" name="acc" data-parsley-required>
+                        <option value="">انتخاب کنید.</option>
+                        {% for value in bacc %}
+                            <option value="{{value.id}}">{{value}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div style="margin-top: 15px;" class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input class="form-control jalali-datepicker" type="text" name="date" value="{{fadate}}">
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div style="margin-top: 15px;" class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <input class="form-control" type="number" name="peak" value="200">
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div style="margin-top: 15px;" class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <button class="btn aqua-gradient">ثبت</button>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </form>
+    </div>
+    <footer class="page-footer font-small default-color pt-4" id="footer">
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+                <hr class="clearfix w-100 d-md-none pb-3">
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase" style="font-family: bnazanin;">توسعه دهندگان</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://t.me/Mheftekhari">تلگرام ( محمد حسین افتخاری زاده )</a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/Iman_Naseri">تلگرام ( ایمان ناصری )</a>
+                        </li>
+                        <li>
+                            <a>mh.eftekhari@gmail.com</a>
+                        </li>
+                        <li>
+                            <a>inaseri.20@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase" style="font-family: bnazanin;">ارتباط با ما</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://t.me/abbas2044">تلگرام ادمین</a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/sandogh_hazrat_zainab_bot">رباط صندوق</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'lows' %}">قوانین صندوق</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mt-md-0 mt-3"></div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2018 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/"> Mohammad Hossein Eftekhair, Iman Naseri</a>
+        </div>
+    </footer>
+
 {% block js %}
   <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/moment.min.js' %}" ></script>
@@ -86,100 +179,13 @@
     });
   </script>
   <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
+  <script>
+    var headerHeight = document.getElementById('header').offsetHeight;
+    var footerHeight = document.getElementById('footer').offsetHeight;
+    var contentHeight = headerHeight + footerHeight;
+    $('#content').css({ 'min-height': 'calc(100vh - ' + contentHeight+ 'px)' });
+  </script>
 {% endblock %}
-
-
-{% block body %}
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark default-color">
-            <a class="navbar-brand" onclick="window.history.back()" style="color: white;">
-                <img src="{% static 'img/iconfinder-icon.svg' %}" style="height: 35px; width: 35px;">
-                <strong style="font-family: bnazanin; margin-left: -10px;">برگشت</strong>
-            </a>
-        </nav>
-    </header>
-    <div class="container-fluid" style="min-height: 100vh;">
-        <form method="post">
-            {% csrf_token %}
-            <div style="margin-top: 15px;" class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <select class="form-control" required="required" name="acc" data-parsley-required>
-                        <option value="">انتخاب کنید.</option>
-                        {% for value in bacc %}
-                            <option value="{{value.id}}">{{value}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-md-4"></div>
-            </div>
-            <div style="margin-top: 15px;" class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <input class="form-control jalali-datepicker" type="text" name="date" value="{{fadate}}">
-                </div>
-                <div class="col-md-4"></div>
-            </div>
-            <div style="margin-top: 15px;" class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <input class="form-control" type="number" name="peak" value="200">
-                </div>
-                <div class="col-md-4"></div>
-            </div>
-            <div style="margin-top: 15px;" class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <button class="btn aqua-gradient">ثبت</button>
-                </div>
-                <div class="col-md-4"></div>
-            </div>
-        </form>
-    </div>
-<footer class="page-footer font-small default-color pt-4">
-        <div class="container-fluid text-center text-md-left">
-            <div class="row">
-                <div class="col-md-2 mt-md-0 mt-3"></div>
-                <hr class="clearfix w-100 d-md-none pb-3">
-                <div class="col-md-3 mb-md-0 mb-3">
-                    <h5 class="text-uppercase" style="font-family: bnazanin;">توسعه دهندگان</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="https://t.me/Mheftekhari">تلگرام ( محمد حسین افتخاری زاده )</a>
-                        </li>
-                        <li>
-                            <a href="https://t.me/Iman_Naseri">تلگرام ( ایمان ناصری )</a>
-                        </li>
-                        <li>
-                            <a>mh.eftekhari@gmail.com</a>
-                        </li>
-                        <li>
-                            <a>inaseri.20@gmail.com</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-2 mt-md-0 mt-3"></div>
-                <div class="col-md-3 mb-md-0 mb-3">
-                    <h5 class="text-uppercase" style="font-family: bnazanin;">ارتباط با ما</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="https://t.me/abbas2044">تلگرام ادمین</a>
-                        </li>
-                        <li>
-                            <a href="https://t.me/sandogh_hazrat_zainab_bot">رباط صندوق</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'lows' %}">قوانین صندوق</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-2 mt-md-0 mt-3"></div>
-            </div>
-        </div>
-        <div class="footer-copyright text-center py-3">© 2018 Copyright:
-            <a href="https://mdbootstrap.com/education/bootstrap/"> Mohammad Hossein Eftekhair, Iman Naseri</a>
-        </div>
-    </footer>
 {% endblock %}
 
 
