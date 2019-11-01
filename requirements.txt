@@ -3,3 +3,5 @@ jdatetime
 django-pwa
 mysqlclient
 pillow
+requests
+python-dateutil
