@@ -7,3 +7,5 @@ RUN pip install -r requirements.txt
 COPY . /code/
 RUN python /code/manage.py makemigrations
 RUN python /code/manage.py migrate
+EXPOSE 8000
+ENTRYPOINT ["python", "manage.py", "runserver 0.0.0.0:8000"]
