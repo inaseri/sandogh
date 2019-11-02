@@ -92,6 +92,7 @@ class catchAdmin(admin.ModelAdmin):
     search_fields=["bankaccount__user__username","bankaccount__user__first_name","bankaccount__user__last_name"]
     list_display=["bankaccount","date"]
     list_filter=["date"]
+    readonly_fields = ["date"]
     pass
 
 class catchLoan(admin.ModelAdmin):
