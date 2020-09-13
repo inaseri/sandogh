@@ -26,7 +26,7 @@ class User(AbstractUser):
 class bankaccount(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     name = models.CharField(max_length=8,unique=True)
-    createTime = models.DateTimeField(auto_now=True)
+    createTime = models.DateTimeField(auto_created=True)
     count = models.IntegerField(default=0)
     points=models.IntegerField(default=0)
     def __str__(self):
