@@ -6,6 +6,7 @@ from django.db.models import Q
 import jdatetime
 from client.views import SendMessage
 from client.admin import Inventory,CountAllLoan,CountPayLoan,UnpaidLoan
+from datetime import datetime, timedelta
 def percentage(obj):
     bnk = bankaccount.objects.all()
     j=0
@@ -87,11 +88,44 @@ def data(request):
                     SendMessage(webhook['from']['id'], Message, reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "یک سال من چگونه گذشت؟":
-                reply_markup = {
-                    "keyboard": [["وضعیت حساب"], ["وضعیت وام"], ["تغییر گذرواژه سایت"], ["یک سال من چگونه گذشت؟"]],
-                    "one_time_keyboard": True}
-                Message = "Nice"
-                SendMessage(webhook['from']['id'], Message, reply_markup)
+                Qr = Q()
+                Qr = Qr & (Q(**{"user": u}))
+                bankaccounts = bankaccount.objects.filter(Qr)
+                for acc in bankaccounts:
+                    count= acc.count
+                    Qr = Q()
+                    Qr = Qr & (Q(**{"added_with_bank": False}))
+                    Qr = Qr & (Q(**{"bankaccount": acc}))
+                    Qr = Qr & (Q(**{"date__gt": datetime(year=datetime.now().year-1,month=datetime.now().month,day=datetime.now().day)}))
+                    catchs=catch.objects.filter(Qr)
+                    count=count+len(catchs)
+                    price=0
+                    for item in catchs:
+                        price= price + item.price
+                    Qr = Q()
+                    Qr = Qr & (Q(**{"bankaccount": acc}))
+                    Qr = Qr & (Q(**{"added_with_bank": True}))
+                    Qr = Qr & (Q(**{"date__gt": datetime(year=datetime.now().year-1,month=datetime.now().month,day=datetime.now().day)}))
+                    catchs=catch.objects.filter(Qr)
+                    price=price*10000
+                    locale.setlocale( locale.LC_ALL, 'fa_IR' )
+                    reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"],["یک سال من چگونه گذشت؟"]],"one_time_keyboard":True}
+                    Message = "تاریخ:" + str(jdatetime.datetime.now().year)+"/"+str(jdatetime.datetime.now().month)+"/"+str(jdatetime.datetime.now().day)+"\n"
+                    Message+="شماره حساب: "+acc.name+"\n"
+                    Message=Message+"تعداد قسط پرداختی توسط شما:"+str(count)+"\nموجودی حساب شما:"+locale.currency( price, grouping=True )
+                    Message=Message+"\n"
+                    for item in catchs:
+                        Message=Message+"\nسود سال "+str(item.year)+" مبلغ "+locale.currency( item.price*10000, grouping=True )+" می باشد."
+                        price=price+item.price*10000
+                    Message=Message+"\nکل موجودی شما مبلغ "+locale.currency( price, grouping=True )+" می باشد."
+                    try:
+                        Message += "\nسود شما :" + percentage(acc)
+                        Message += "\nبالاترین سود :" + percentage(bankaccount.objects.filter().order_by("-points")[0])
+                    except:
+                        Message += "\nسود شما : در حال حاضر محاسبه نشده است."
+                        Message += "\nبالاترین سود :در حال حاضر محاسبه نشده است."
+                    Message += "\nتعداد افرادی که بیشتر از شما واریزی داشته اند :" + str(bankaccount.objects.filter(points__gt=acc.points).count())
+                    SendMessage(webhook['from']['id'], Message, reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "وضعیت وام":
                 bk = bankaccount.objects.filter(user=u)
