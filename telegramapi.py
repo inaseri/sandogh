@@ -68,7 +68,7 @@ def data(request):
                     catchs=catch.objects.filter(Qr)
                     price=price*10000
                     locale.setlocale( locale.LC_ALL, 'fa_IR' )
-                    reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
+                    reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"],["یک سال من چگونه گذشت؟"]],"one_time_keyboard":True}
                     Message = "تاریخ:" + str(jdatetime.datetime.now().year)+"/"+str(jdatetime.datetime.now().month)+"/"+str(jdatetime.datetime.now().day)+"\n"
                     Message+="شماره حساب: "+acc.name+"\n"
                     Message=Message+"تعداد قسط پرداختی توسط شما:"+str(count)+"\nموجودی حساب شما:"+locale.currency( price, grouping=True )
@@ -86,11 +86,18 @@ def data(request):
                     Message += "\nتعداد افرادی که بیشتر از شما واریزی داشته اند :" + str(bankaccount.objects.filter(points__gt=acc.points).count())
                     SendMessage(webhook['from']['id'], Message, reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
+            elif webhook['text'] == "یک سال من چگونه گذشت؟":
+                reply_markup = {
+                    "keyboard": [["وضعیت حساب"], ["وضعیت وام"], ["تغییر گذرواژه سایت"], ["یک سال من چگونه گذشت؟"]],
+                    "one_time_keyboard": True}
+                Message = "Nice"
+                SendMessage(webhook['from']['id'], Message, reply_markup)
+                return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "وضعیت وام":
                 bk = bankaccount.objects.filter(user=u)
                 lq = Loan_queue.objects.filter(bankaccount__in=bk)
                 lo={}
-                reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"]],"one_time_keyboard":True}
+                reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"],["یک سال من چگونه گذشت؟"]],"one_time_keyboard":True}
                
                 
                  
