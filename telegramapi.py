@@ -115,16 +115,9 @@ def data(request):
                     Message=Message+"تعداد قسط پرداختی توسط شما:"+str(count)+"\nموجودی حساب شما:"+locale.currency( price, grouping=True )
                     Message=Message+"\n"
                     for item in catchs:
-                        Message=Message+"\nسود سال "+str(item.year)+" مبلغ "+locale.currency( item.price*10000, grouping=True )+" می باشد."
+                        Message=Message+"\nسود امسال "+str(item.year)+" مبلغ "+locale.currency( item.price*10000, grouping=True )+" می باشد."
                         price=price+item.price*10000
                     Message=Message+"\nکل موجودی شما مبلغ "+locale.currency( price, grouping=True )+" می باشد."
-                    try:
-                        Message += "\nسود شما :" + percentage(acc)
-                        Message += "\nبالاترین سود :" + percentage(bankaccount.objects.filter().order_by("-points")[0])
-                    except:
-                        Message += "\nسود شما : در حال حاضر محاسبه نشده است."
-                        Message += "\nبالاترین سود :در حال حاضر محاسبه نشده است."
-                    Message += "\nتعداد افرادی که بیشتر از شما واریزی داشته اند :" + str(bankaccount.objects.filter(points__gt=acc.points).count())
                     SendMessage(webhook['from']['id'], Message, reply_markup)
                 return HttpResponse(json.dumps(context), content_type="application/json")
             elif webhook['text'] == "وضعیت وام":
@@ -150,6 +143,9 @@ def data(request):
                     mess+="تعداد قسط عقب افتاده ی شما:"+str(UnpaidLoan(new_lo))+"\n"
                     mess += "تعداد قسط پرداخت شده ی شما:" + str(CountPayLoan(new_lo))+"\n"
                     mess += "تعداد کل قسط های شما:" + str(CountAllLoan(new_lo))+"\n"
+                    mess += "مبلغ کل وام:" + str(Loan_queue.objects.filter(bankaccount__in=bk, status=0).amount*10000)+" تومان\n"
+                    mess += "مبلغ هر قسط:" + str(new_loan.peak*1000)+" تومان\n"
+                    mess += "مبلغ باقیمانده:" + str(CountAllLoan(new_lo))+"\n"
                 # p1=lo.part_payed * part_amount
                 # p2=loan_amount - p1
                 # mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
