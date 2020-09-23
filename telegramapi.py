@@ -138,6 +138,7 @@ def data(request):
                 mess="آقای  "+ bk[0].user.first_name+" "+bk[0].user.last_name + "  عزیز \n"
                 mess += "تعداد وام هایی که به شما داده شده است:"+str(len(lq))+"\n"
                 mess += "تعداد وام های تسویه شده:"+str(len(Loan_queue.objects.filter(bankaccount__in=bk,status=1)))+"\n"
+                mess += "تعداد وام های فعال:"+str(len(lq) - len(Loan_queue.objects.filter(bankaccount__in=bk,status=1)))+"\n"
                 mess += "تعداد وام های در حال پردازش:" + str(len(Loan_queue.objects.filter(bankaccount__in=bk, status=-1))) + "\n"
                 if len(Loan_queue.objects.filter(bankaccount__in=bk, status=0)):
                     new_los=new_loan.objects.filter(loan_queue__in=Loan_queue.objects.filter(bankaccount__in=bk, status=0))
