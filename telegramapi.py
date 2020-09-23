@@ -110,8 +110,9 @@ def data(request):
                     price=price*10000
                     locale.setlocale( locale.LC_ALL, 'fa_IR' )
                     reply_markup = {"keyboard":[["وضعیت حساب"],["وضعیت وام"],["تغییر گذرواژه سایت"],["یک سال من چگونه گذشت؟"]],"one_time_keyboard":True}
-                    Message = "تاریخ:" + str(jdatetime.datetime.now().year)+"/"+str(jdatetime.datetime.now().month)+"/"+str(jdatetime.datetime.now().day)+"\n"
-                    Message+="شماره حساب: "+acc.name+"\n"
+                    Message = "از تاریخ:" + str(jdatetime.datetime.now().year)+"/"+str(jdatetime.datetime.now().month)+"/"+str(jdatetime.datetime.now().day)+"\n"
+                    Message += "تا تاریخ:" + str(jdatetime.datetime.now().year-1)+"/"+str(jdatetime.datetime.now().month)+"/"+str(jdatetime.datetime.now().day)+"\n"
+                    Message += "شماره حساب: "+acc.name+"\n"
                     Message=Message+"تعداد قسط پرداختی توسط شما:"+str(count)+"\nموجودی حساب شما:"+locale.currency( price, grouping=True )
                     Message=Message+"\n"
                     for item in catchs:
@@ -143,8 +144,8 @@ def data(request):
                     mess+="تعداد قسط عقب افتاده ی شما:"+str(UnpaidLoan(new_lo))+"\n"
                     mess += "تعداد قسط پرداخت شده ی شما:" + str(CountPayLoan(new_lo))+"\n"
                     mess += "تعداد کل قسط های شما:" + str(CountAllLoan(new_lo))+"\n"
-                    mess += "مبلغ کل وام:" + str(Loan_queue.objects.filter(bankaccount__in=bk, status=0).amount*10000)+" تومان\n"
-                    mess += "مبلغ هر قسط:" + str(new_loan.peak*1000)+" تومان\n"
+                    mess += "مبلغ کل وام:" + str(Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*10000)+" تومان\n"
+                    mess += "مبلغ هر قسط:" + str(new_lo.peak*1000)+" تومان\n"
                     mess += "مبلغ باقیمانده:" + str(CountAllLoan(new_lo))+"\n"
                 # p1=lo.part_payed * part_amount
                 # p2=loan_amount - p1
