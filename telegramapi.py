@@ -140,14 +140,16 @@ def data(request):
                 mess += "تعداد وام های تسویه شده:"+str(len(Loan_queue.objects.filter(bankaccount__in=bk,status=1)))+"\n"
                 mess += "تعداد وام های در حال پردازش:" + str(len(Loan_queue.objects.filter(bankaccount__in=bk, status=-1))) + "\n"
                 if len(Loan_queue.objects.filter(bankaccount__in=bk, status=0)):
-                    new_lo=new_loan.objects.get(loan_queue__in=Loan_queue.objects.filter(bankaccount__in=bk, status=0))
-                    mess+="تعداد قسط عقب افتاده ی شما:"+str(UnpaidLoan(new_lo))+"\n"
-                    mess += "تعداد قسط پرداخت شده ی شما:" + str(CountPayLoan(new_lo))+"\n"
-                    mess += "تعداد کل قسط های شما:" + str(CountAllLoan(new_lo))+"\n"
-                    mess += "مبلغ کل وام:" + locale.currency(Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*1000, grouping=True )+" تومان\n"
-                    mess += "مبلغ هر قسط:" + locale.currency(new_lo.peak*1000, grouping=True)+" تومان\n"
-                    mess += "مبلغ باقیمانده:" + locale.currency(Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*1000 - (new_lo.peak*1000*CountPayLoan(new_lo)), grouping=True)+"\n"
-                    mess += "مبلغ پرداخت شده توسط شما:" + locale.currency(-1 * (Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*1000 - Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*1000 - (new_lo.peak*1000*CountPayLoan(new_lo))), grouping=True)+"\n"
+                    new_los=new_loan.objects.filter(loan_queue__in=Loan_queue.objects.filter(bankaccount__in=bk, status=0))
+                    for new_lo in new_los:
+                        mess +="---------------\n"
+                        mess +="تعداد قسط عقب افتاده ی شما:"+str(UnpaidLoan(new_lo))+"\n"
+                        mess += "تعداد قسط پرداخت شده ی شما:" + str(CountPayLoan(new_lo))+"\n"
+                        mess += "تعداد کل قسط های شما:" + str(CountAllLoan(new_lo))+"\n"
+                        mess += "مبلغ کل وام:" + locale.currency(Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*1000, grouping=True )+" تومان\n"
+                        mess += "مبلغ هر قسط:" + locale.currency(new_lo.peak*1000, grouping=True)+" تومان\n"
+                        mess += "مبلغ باقیمانده:" + locale.currency(Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*1000 - (new_lo.peak*1000*CountPayLoan(new_lo)), grouping=True)+"\n"
+                        mess += "مبلغ پرداخت شده توسط شما:" + locale.currency(-1 * (Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*1000 - Loan_queue.objects.filter(bankaccount__in=bk, status=0)[0].amount*1000 - (new_lo.peak*1000*CountPayLoan(new_lo))), grouping=True)+"\n"
                 # p1=lo.part_payed * part_amount
                 # p2=loan_amount - p1
                 # mess=mess+" مبلغ پرداخت شده : "+locale.currency(p1, grouping=True)+" \n مبلغ باقی مانده : "+locale.currency(p2, grouping=True)
