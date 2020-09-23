@@ -91,8 +91,8 @@ def data(request):
                 Qr = Q()
                 Qr = Qr & (Q(**{"user": u}))
                 bankaccounts = bankaccount.objects.filter(Qr)
+                count= 0
                 for acc in bankaccounts:
-                    count= 0
                     Qr = Q()
                     Qr = Qr & (Q(**{"added_with_bank": False}))
                     Qr = Qr & (Q(**{"bankaccount": acc}))
